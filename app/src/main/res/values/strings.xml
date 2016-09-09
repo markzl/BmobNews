@@ -5,4 +5,37 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_register">Register</string>
+    <!--About-->
+    <string name="about_introduce">「萌妹纸」- 每日更新妹纸福利\n\n使用Rxjava系列类库 + Realm数据库 + Retrofit2实现的一个妹纸福利App,喜欢的请star一波!</string>
+    <string name="about_developers">关于我</string>
+    <string name="about_open_source_lis">开源项目</string>
+    <string name="about_introduce_and_help">介绍与帮助</string>
+    <string name="about_open_source_libraries_list">com.squareup.retrofit2:retrofit:2.0.0-beta4\ncom.squareup.okhttp3:okhttp:3.2.0\nio.reactivex:rxandroid:1.1.0\nio.reactivex:rxjava:1.1.0\ncom.jakewharton:butterknife:7.0.1\ncom.github.bumptech.glide:glide:3.7.0\ncom.trello:rxlifecycle-components:0.6.1\ncom.jakewharton.rxbinding:rxbinding:0.3.0\ncom.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar</string>
+    <string name="about_function">功能介绍</string>
+    <string name="about_function_list">1.Gank妹纸\n2.淘女郎\n3.豆瓣妹纸\n4.花瓣妹纸\n5.煎蛋妹纸\n6.每日更新提醒\n7.新增妹纸图\n8.妹纸图片保存与分享</string>
+    <string name="about">关于</string>
+    <string name="about_version">1.0</string>
+    <string name="project_link">https://github.com/HotBitmapGG/MoeQuest</string>
+    <string name="daily_android_tag_tv">Android</string>
+    <string name="daily_ios_tag_tv">IOS</string>
+    <string name="daily_js_tag_tv">JS</string>
+    <string name="btn_login">登录</string>
+    <string name="btn_register">注册</string>
+    <string name="tv_username">mark_zl</string>
+    <string name="tv_email">1015653112@qq.com</string>
 </resources>
