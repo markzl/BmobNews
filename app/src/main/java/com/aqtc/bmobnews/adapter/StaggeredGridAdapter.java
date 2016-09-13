@@ -9,10 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aqtc.bmobnews.R;
-import com.aqtc.bmobnews.bean.ImageBean;
+import com.aqtc.bmobnews.bean.BaseGankData;
 import com.aqtc.bmobnews.util.GlideUtils;
 import com.aqtc.bmobnews.view.RatioImageView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,21 +22,28 @@ import java.util.List;
  */
 public class StaggeredGridAdapter extends RecyclerView.Adapter<StaggeredGridAdapter.ListHolder> {
 
-    private Context context;
-    private List<ImageBean.Results> results;
 
-    public StaggeredGridAdapter(Context context, List<ImageBean.Results> results) {
+
+    private Context context;
+    private ArrayList<BaseGankData> results;
+
+
+    public StaggeredGridAdapter(Context context, ArrayList<BaseGankData> results) {
         this.context = context;
         this.results = results;
     }
-    public void addData(List<ImageBean.Results> result_list){
-       /* for (ImageBean.Results result:result_list) {
-            this.results.add(result);
-        }*/
+    public void addData(List<BaseGankData> result_list){
+
         this.results.addAll(result_list);
         Collections.reverse(this.results);
         this.notifyDataSetChanged();
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
     @Override
     public StaggeredGridAdapter.ListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_gallery, parent, false);

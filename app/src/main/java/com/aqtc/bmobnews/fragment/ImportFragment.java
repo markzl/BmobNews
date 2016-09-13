@@ -3,19 +3,19 @@ package com.aqtc.bmobnews.fragment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.aqtc.bmobnews.R;
+import com.aqtc.bmobnews.adapter.MainAdapter;
 import com.aqtc.bmobnews.bean.GankDialy;
 import com.aqtc.bmobnews.constant.URLConstant;
+import com.aqtc.bmobnews.message.DataManange;
 import com.aqtc.bmobnews.util.HttpUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -33,9 +33,11 @@ public class ImportFragment extends BaseFragment implements SwipeRefreshLayout.O
     RecyclerView mRecylerView;
 
     GankDialy bean;
+    MainAdapter mAdapter;
+
     @Override
     public View getInflaterView(LayoutInflater inflater) {
-        return inflater.inflate(R.layout.fragment_import,null,false);
+        return inflater.inflate(R.layout.fragment_import, null, false);
     }
 
     @Override
@@ -52,46 +54,37 @@ public class ImportFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void initData() {
-        bean=new GankDialy();
-        HttpUtil.getData(URLConstant.HISTORY_URL,handler);
+        DataManange.getData();
+        ArrayList<GankDialy> datas = new ArrayList<GankDialy>();
+        HttpUtil.getData(URLConstant.DAILY_URL, handler);
     }
 
     @Override
     public void onRefresh() {
 
     }
+
     protected Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
-            try {
-                JSONObject json = new JSONObject(result);
-                Boolean error = json.getBoolean("error");
-                JSONArray results_array = new JSONArray(json.getString("results"));
-                bean.error = error;
-                bean.results = new ArrayList<GankDialy.Results>();
-                for (int i = 0; i < results_array.length(); i++) {
-                    JSONObject jsonObj = results_array.getJSONObject(i);
-                    GankDialy.Results results1 = bean.new Results();
-                    results1.id = jsonObj.getString("_id");
-                    results1.content=jsonObj.getString("content");
-                    results1.publishedAt=jsonObj.getString("publishedAt");
-                    results1.title=jsonObj.getString("title");
-                    bean.results.add(results1);
-                    Log.i("xys",results1.title);
-                }
-
-              /*  if (mAdapter == null) {
-                    StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
-                    mRecylerView.setLayoutManager(layoutManager);
-                    mAdapter = new StaggeredGridAdapter(mContext, bean.results);
-                    mRecylerView.setAdapter(mAdapter);
-                }
-                mAdapter.addData(bean.results);*/
-            } catch (JSONException e) {
-                e.printStackTrace();
+            Gson gson = new Gson();
+            GankDialy data = gson.fromJson(result, GankDialy.class);
+            ArrayList<GankDialy> datas = new ArrayList<GankDialy>();
+            datas.add(data);
+            for (String str : datas.get(0).category) {
+                Log.i("xyyx", str);
             }
+
+            if (mAdapter == null) {
+                mRecylerView.setLayoutManager(new LinearLayoutManager(mContext));
+                mAdapter = new MainAdapter(mContext, datas);
+                mRecylerView.setAdapter(mAdapter);
+            }else {
+                mAdapter.addData(datas);
+            }
+
         }
     };
 

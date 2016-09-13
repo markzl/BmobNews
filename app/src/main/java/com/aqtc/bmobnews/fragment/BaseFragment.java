@@ -25,7 +25,7 @@ public abstract class BaseFragment extends Fragment{
         mContext=inflater.getContext();
         initView();
         initData();
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
     }
     public abstract View getInflaterView(LayoutInflater inflater);
 
