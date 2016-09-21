@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.aqtc.bmobnews.view.RatioImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.aqtc.bmobnews.widget.RatioImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/card_item_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

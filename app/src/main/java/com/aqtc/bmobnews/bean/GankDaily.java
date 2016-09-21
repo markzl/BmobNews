@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by markzl on 2016/9/12.
  * email:1015653112@qq.com
  */
-public class GankDialy implements Serializable{
+public class GankDaily implements Serializable{
 
     @SerializedName("category")
     public ArrayList<String> category;
@@ -20,7 +20,7 @@ public class GankDialy implements Serializable{
     @SerializedName("results")
     public DailyResults results;
 
-    public class DailyResults {
+    public class DailyResults implements Serializable{
 
         @SerializedName("福利")
         public ArrayList<BaseGankData> welfareData;

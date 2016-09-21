@@ -22,7 +22,7 @@
  * <http://www.gnu.org/philosophy/why-not-lgpl.html>.
  */
 
-package com.aqtc.bmobnews.view;
+package com.aqtc.bmobnews.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package com.aqtc.bmobnews.view;
+package com.aqtc.bmobnews.widget;
 
 import android.app.Activity;
 import android.support.v4.view.ViewCompat;

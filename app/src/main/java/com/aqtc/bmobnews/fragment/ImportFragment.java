@@ -1,19 +1,21 @@
 package com.aqtc.bmobnews.fragment;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.aqtc.bmobnews.R;
+import com.aqtc.bmobnews.activity.DailyDetailActivity;
 import com.aqtc.bmobnews.adapter.MainAdapter;
-import com.aqtc.bmobnews.bean.GankDialy;
+import com.aqtc.bmobnews.bean.GankDaily;
 import com.aqtc.bmobnews.constant.URLConstant;
-import com.aqtc.bmobnews.message.DataManange;
 import com.aqtc.bmobnews.util.HttpUtil;
 import com.google.gson.Gson;
 
@@ -32,9 +34,10 @@ public class ImportFragment extends BaseFragment implements SwipeRefreshLayout.O
     @BindView(R.id.recycler)
     RecyclerView mRecylerView;
 
-    GankDialy bean;
-    MainAdapter mAdapter;
+    private MainAdapter mAdapter;
+    private ArrayList<GankDaily> dailyData_list;
 
+    private boolean isRefreshing=true;
     @Override
     public View getInflaterView(LayoutInflater inflater) {
         return inflater.inflate(R.layout.fragment_import, null, false);
@@ -42,26 +45,55 @@ public class ImportFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void initView() {
-
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        mRefreshLayout.setProgressBackgroundColor(android.R.color.holo_red_light);
-
+        mRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mRefreshLayout.setRefreshing(isRefreshing);
+            }
+        });
+        mRecylerView.setItemAnimator(new DefaultItemAnimator());
+        mRecylerView.setHasFixedSize(true);
+        mRecylerView.setLayoutManager(new LinearLayoutManager(mContext));
+        dailyData_list = new ArrayList<GankDaily>();
+        mAdapter = new MainAdapter(mContext, dailyData_list);
+        mRecylerView.setAdapter(mAdapter);
     }
+    private int totalItemCount;
+    private int lastVisiableItem;
+  /*  private void setUpLoadData(){
+
+        if(mRecylerView.getLayoutManager() instanceof LinearLayoutManager){
+
+            final LinearLayoutManager layoutManager= (LinearLayoutManager) mRecylerView.getLayoutManager();
+            mRecylerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    totalItemCount=layoutManager.getItemCount();
+                    lastVisiableItem=layoutManager.findLastVisibleItemPosition();
+                    if(!isRefreshing&&lastVisiableItem+1>=totalItemCount){
+                        Log.i("xys","上拉刷新");
+                    }
+                }
+            });
+        }
+    }*/
 
     @Override
     public void initData() {
-        DataManange.getData();
-        ArrayList<GankDialy> datas = new ArrayList<GankDialy>();
+        //DataManange.getInstance().getDailyData();
         HttpUtil.getData(URLConstant.DAILY_URL, handler);
     }
-
     @Override
     public void onRefresh() {
-
+        dailyData_list.clear();
+        isRefreshing=!isRefreshing;
+        mRefreshLayout.setRefreshing(false);
     }
 
     protected Handler handler = new Handler() {
@@ -70,21 +102,23 @@ public class ImportFragment extends BaseFragment implements SwipeRefreshLayout.O
             super.handleMessage(msg);
             String result = (String) msg.obj;
             Gson gson = new Gson();
-            GankDialy data = gson.fromJson(result, GankDialy.class);
-            ArrayList<GankDialy> datas = new ArrayList<GankDialy>();
-            datas.add(data);
-            for (String str : datas.get(0).category) {
-                Log.i("xyyx", str);
+            GankDaily dailyData = gson.fromJson(result, GankDaily.class);
+            dailyData_list.add(dailyData);
+            if (mAdapter != null) {
+                mAdapter.addData(dailyData_list);
+                isRefreshing=!isRefreshing;
+                mRefreshLayout.setRefreshing(isRefreshing);
+                mAdapter.setOnItemClickListener(new MainAdapter.OnRecyclerViewItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, GankDaily.DailyResults data) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("detail", data);
+                        Intent intent = new Intent(mContext, DailyDetailActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                });
             }
-
-            if (mAdapter == null) {
-                mRecylerView.setLayoutManager(new LinearLayoutManager(mContext));
-                mAdapter = new MainAdapter(mContext, datas);
-                mRecylerView.setAdapter(mAdapter);
-            }else {
-                mAdapter.addData(datas);
-            }
-
         }
     };
 

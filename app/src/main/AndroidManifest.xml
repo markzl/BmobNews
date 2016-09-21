@@ -51,6 +51,11 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.DailyDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_register"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

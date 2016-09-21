@@ -3,7 +3,7 @@ package com.aqtc.bmobnews;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.aqtc.bmobnews.view.StatusBarCompat;
+import com.aqtc.bmobnews.widget.StatusBarCompat;
 
 import butterknife.ButterKnife;
 

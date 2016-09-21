@@ -2,6 +2,7 @@ package com.aqtc.bmobnews.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.bean.BaseGankData;
-import com.aqtc.bmobnews.bean.GankDialy;
+import com.aqtc.bmobnews.bean.GankDaily;
 import com.aqtc.bmobnews.constant.GankApi;
 import com.aqtc.bmobnews.util.GlideUtils;
 
@@ -20,34 +21,45 @@ import java.util.ArrayList;
  * Created by markzl on 2016/9/13.
  * email:1015653112@qq.com
  */
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ListHodler> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ListHodler> implements View.OnClickListener {
 
     private Context context;
-    private ArrayList<GankDialy> gankDialies;
+    private ArrayList<GankDaily> gankDialies;
 
-    public MainAdapter(Context context, ArrayList<GankDialy> gankDialies){
+    public MainAdapter(Context context, ArrayList<GankDaily> gankDialies){
         this.context=context;
         this.gankDialies=gankDialies;
     }
-    public void addData(ArrayList<GankDialy> gankDialies){
+    public void addData(ArrayList<GankDaily> gankDialies){
 
         this.gankDialies.addAll(gankDialies);
+        this.notifyDataSetChanged();
     }
     @Override
     public ListHodler onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.item_daily, parent, false);
+        view.setOnClickListener(this);
         return new ListHodler(view);
     }
 
     @Override
     public void onBindViewHolder(ListHodler holder, int position) {
         holder.setData(position);
+        holder.itemView.setTag(gankDialies.get(position).results);
     }
 
     @Override
     public int getItemCount() {
+        Log.i("adapter",gankDialies.size()+"");
         return gankDialies.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(mListener!=null) {
+            mListener.onItemClick(v, (GankDaily.DailyResults) v.getTag());
+        }
     }
 
     class ListHodler extends RecyclerView.ViewHolder{
@@ -69,7 +81,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ListHodler> {
         }
         public void setData(int position){
 
-            GankDialy dailyData = gankDialies.get(position);
+            GankDaily dailyData = gankDialies.get(position);
             if (dailyData == null) return;
             if (dailyData.results.videoData != null && dailyData.results.videoData.size() > 0) {
                 BaseGankData video = dailyData.results.videoData.get(0);
@@ -122,5 +134,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ListHodler> {
                 }
             }
         }
+    }
+
+    public  interface OnRecyclerViewItemClickListener{
+        void onItemClick(View view,GankDaily.DailyResults data);
+    }
+    private OnRecyclerViewItemClickListener mListener;
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener mListener){
+        this.mListener=mListener;
     }
 }

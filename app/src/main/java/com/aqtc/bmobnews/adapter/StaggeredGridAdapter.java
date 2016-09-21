@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.bean.BaseGankData;
 import com.aqtc.bmobnews.util.GlideUtils;
-import com.aqtc.bmobnews.view.RatioImageView;
+import com.aqtc.bmobnews.widget.RatioImageView;
 
 import java.util.ArrayList;
 import java.util.Collections;
