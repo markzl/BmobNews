@@ -1,15 +1,18 @@
 package com.aqtc.bmobnews.data;
 
 
-import android.util.Log;
-
+import com.aqtc.bmobnews.bean.BaseGankData;
 import com.aqtc.bmobnews.bean.GankDaily;
+import com.aqtc.bmobnews.model.DailyModel;
+import com.aqtc.bmobnews.model.DataModel;
+import com.aqtc.bmobnews.presenter.MainPresenter;
+import com.aqtc.bmobnews.util.rx.RxUtils;
 
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import java.util.ArrayList;
+
+import rx.Observable;
+import rx.functions.Func1;
+import rx.functions.Func2;
 
 /**
  * Created by markzl on 2016/9/20.
@@ -18,13 +21,21 @@ import rx.subscriptions.CompositeSubscription;
 public class DataManange {
 
     public static DataManange instance = null;
-    private int year=2016;
-    private int month=9;
-    private int day=20;
-    private CompositeSubscription mSubscription = new CompositeSubscription();
+    /*  private int year=2016;
+      private int month=9;
+      private int day=20;*/
+    // private CompositeSubscription mSubscription = new CompositeSubscription();
+    private final DailyModel dailyModel;
+    private DataModel dataModel;
 
+    private DataManange() {
+
+        this.dataModel = new DataModel();
+        this.dailyModel = DailyModel.getInstance();
+    }
 
     public static DataManange getInstance() {
+
         if (instance == null) {
             synchronized (DataManange.class) {
                 if (instance == null) {
@@ -35,9 +46,58 @@ public class DataManange {
         return instance;
     }
 
-    public void getDailyData() {
+    /**
+     * 获取每日数据集合
+     *
+     * @return
+     */
+    public Observable<ArrayList<GankDaily>> getDailyDataByNetwork(MainPresenter.EasyDate currentDate) {
 
-        mSubscription.add(RetrofitHelper.getInstance().createService(ApiInterface.class).getDailyData(year, month, day)
+
+        return Observable.just(currentDate)
+                .flatMapIterable(new Func1<MainPresenter.EasyDate, Iterable<MainPresenter.EasyDate>>() {
+                    @Override
+                    public Iterable<MainPresenter.EasyDate> call(MainPresenter.EasyDate easyDate) {
+
+                        return easyDate.getPastTime();
+                    }
+                })
+                .flatMap(new Func1<MainPresenter.EasyDate, Observable<GankDaily>>() {
+                    @Override
+                    public Observable<GankDaily> call(MainPresenter.EasyDate easyDate) {
+                        return dailyModel.getDaily(easyDate.getYear(), easyDate.getMonth(), easyDate.getDay());
+                    }
+                })
+                .toSortedList(new Func2<GankDaily, GankDaily, Integer>() {
+                    @Override
+                    public Integer call(GankDaily gankDaily, GankDaily gankDaily2) {
+                        return gankDaily2.results.androidData.get(0).publishedAt
+                                .compareTo(gankDaily.results.androidData.get(0).publishedAt);
+                    }
+                })
+                .compose(null);
+    }
+
+    /**
+     * 获取其他类型数据
+     *
+     * @return
+     */
+    public Observable<ArrayList<BaseGankData>> getDataByNetwork() {
+        return null;
+    }
+
+    /**
+     * 获取每日详情数据
+     *
+     * @return
+     */
+    public Observable<ArrayList<ArrayList<BaseGankData>>> getDailyDetailDataByNetwork() {
+        return null;
+    }
+   /* public void getDailyData() {
+
+        mSubscription.add(RetrofitHelper.getInstance().createService(GankInterface.class).getDailyData(year, month, day)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -65,7 +125,7 @@ public class DataManange {
                 }));
 
 
-    }
+    }*/
 
    /* public Observable<List<GankDaily>> getDailyDataByNetwork(EasyDate currentDate) {
         return Observable.just(currentDate)

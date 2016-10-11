@@ -8,7 +8,7 @@
     tools:context="com.aqtc.bmobnews.activity.LoginActivity">
 
 
-    <include layout="@layout/toolbar_layout"/>
+    <include layout="@layout/layout_toolbar"/>
 
     <!-- Login progress -->
     <ProgressBar

@@ -1,4 +1,4 @@
-package com.aqtc.bmobnews;
+package com.aqtc.bmobnews.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

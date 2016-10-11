@@ -1,12 +1,14 @@
 package com.aqtc.bmobnews.model;
 
 import com.aqtc.bmobnews.bean.UserBean;
+import com.aqtc.bmobnews.event.OnLoginListener;
+import com.aqtc.bmobnews.model.imodel.IUserModel;
 
 /**
  * Created by markzl on 2016/9/20.
  * email:1015653112@qq.com
  */
-public class UserModel implements IUserModel{
+public class UserModel implements IUserModel {
 
     @Override
     public void login(final String username, final String password, final OnLoginListener loginListener) {

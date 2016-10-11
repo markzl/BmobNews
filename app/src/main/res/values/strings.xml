@@ -38,4 +38,6 @@
     <string name="btn_register">注册</string>
     <string name="tv_username">mark_zl</string>
     <string name="tv_email">1015653112@qq.com</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_notifications">通知</string>
 </resources>

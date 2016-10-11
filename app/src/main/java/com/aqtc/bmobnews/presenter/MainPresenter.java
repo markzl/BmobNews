@@ -1,0 +1,121 @@
+package com.aqtc.bmobnews.presenter;
+
+import com.aqtc.bmobnews.bean.GankDaily;
+import com.aqtc.bmobnews.data.constant.GankApi;
+import com.aqtc.bmobnews.presenter.base.BasePresenter;
+import com.aqtc.bmobnews.util.DateUtils;
+import com.aqtc.bmobnews.view.base.MvpView;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import rx.Subscriber;
+
+/**
+ * author: markzl
+ * time: 2016/10/2 18:05
+ * email: 1015653112@qq.com
+ */
+
+public class MainPresenter extends BasePresenter<MvpView> {
+
+    private int page;
+    private EasyDate currentDate;
+
+
+    public MainPresenter() {
+        // reservoirUtils = new ReservoirUtils();
+        long time = System.currentTimeMillis();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        currentDate = new EasyDate(calendar);
+        page = 1;
+    }
+
+    /**
+     * 设置查询第几页
+     *
+     * @param page
+     */
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    /**
+     * 获取当前第几页
+     *
+     * @return
+     */
+    public int getPage() {
+        return page;
+    }
+
+    public void getDaily(boolean isRefresh, int oldPage) {
+
+        this.mCompositeSubscription.add(mDataManager.getDailyDataByNetwork(currentDate)
+                .subscribe(new Subscriber<ArrayList<GankDaily>>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mCompositeSubscription != null) {
+                            mCompositeSubscription.remove(this);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<GankDaily> gankDailies) {
+
+                    }
+                }));
+    }
+
+    /**
+     * 日期获取的特殊类
+     */
+    public class EasyDate implements Serializable {
+
+        private Calendar calendar;
+
+        public EasyDate(Calendar calendar) {
+            this.calendar = calendar;
+        }
+
+        public int getYear() {
+            return calendar.get(Calendar.YEAR);
+        }
+
+        public int getMonth() {
+            return calendar.get(Calendar.MONTH) + 1;
+        }
+
+        public int getDay() {
+            return calendar.get(Calendar.DAY_OF_MONTH);
+        }
+
+        /**
+         * 获取与当前日期前10天的日期集合
+         *
+         * @return List<EasyDate>
+         */
+        public List<EasyDate> getPastTime() {
+
+            List<EasyDate> easyDates = new ArrayList<>();
+            for (int i = 0; i < GankApi.DEFAULT_DAILY_SIZE; i++) {
+
+                long time = this.calendar.getTimeInMillis() - (page - 1) * GankApi.DEFAULT_DAILY_SIZE * DateUtils.ONE_DAY - i * DateUtils.ONE_DAY;
+                Calendar c = Calendar.getInstance();
+                c.setTimeInMillis(time);
+                EasyDate date = new EasyDate(c);
+                easyDates.add(date);
+            }
+            return easyDates;
+        }
+    }
+
+}

@@ -13,7 +13,7 @@ import android.view.View;
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.adapter.StaggeredGridAdapter;
 import com.aqtc.bmobnews.bean.GankData;
-import com.aqtc.bmobnews.constant.URLConstant;
+import com.aqtc.bmobnews.data.constant.URLConstant;
 import com.aqtc.bmobnews.util.HttpUtil;
 import com.google.gson.Gson;
 import butterknife.BindView;

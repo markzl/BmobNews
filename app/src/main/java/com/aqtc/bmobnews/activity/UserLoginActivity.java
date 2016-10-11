@@ -7,7 +7,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.aqtc.bmobnews.BaseActivity;
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.bean.UserBean;
 import com.aqtc.bmobnews.presenter.LoginPresenter;

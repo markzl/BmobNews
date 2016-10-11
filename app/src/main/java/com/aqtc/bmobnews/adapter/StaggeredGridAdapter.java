@@ -46,7 +46,7 @@ public class StaggeredGridAdapter extends RecyclerView.Adapter<StaggeredGridAdap
 
     @Override
     public StaggeredGridAdapter.ListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_gallery, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_welfare, parent, false);
 
         return new ListHolder(view);
     }

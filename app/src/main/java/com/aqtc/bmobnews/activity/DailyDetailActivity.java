@@ -3,7 +3,6 @@ package com.aqtc.bmobnews.activity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.aqtc.bmobnews.BaseActivity;
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.bean.GankDaily;
 

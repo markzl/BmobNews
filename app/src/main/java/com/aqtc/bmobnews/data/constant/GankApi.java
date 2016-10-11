@@ -1,5 +1,5 @@
 
-package com.aqtc.bmobnews.constant;
+package com.aqtc.bmobnews.data.constant;
 
 /**
  * Description：GankApi - http://gank.io/api

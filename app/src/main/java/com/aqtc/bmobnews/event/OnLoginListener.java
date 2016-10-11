@@ -1,4 +1,4 @@
-package com.aqtc.bmobnews.model;
+package com.aqtc.bmobnews.event;
 
 import com.aqtc.bmobnews.bean.UserBean;
 

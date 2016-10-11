@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.aqtc.bmobnews.BaseActivity;
 import com.aqtc.bmobnews.R;
 
 import butterknife.BindView;

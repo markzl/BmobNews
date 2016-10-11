@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.bean.BaseGankData;
 import com.aqtc.bmobnews.bean.GankDaily;
-import com.aqtc.bmobnews.constant.GankApi;
+import com.aqtc.bmobnews.data.constant.GankApi;
 import com.aqtc.bmobnews.util.GlideUtils;
 
 import java.util.ArrayList;

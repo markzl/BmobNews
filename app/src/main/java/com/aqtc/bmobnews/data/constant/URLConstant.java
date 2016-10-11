@@ -1,4 +1,4 @@
-package com.aqtc.bmobnews.constant;
+package com.aqtc.bmobnews.data.constant;
 
 /**
  * Created by markzl on 2016/9/12.

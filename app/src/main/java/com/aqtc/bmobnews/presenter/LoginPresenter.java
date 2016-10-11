@@ -3,8 +3,8 @@ package com.aqtc.bmobnews.presenter;
 import android.os.Handler;
 
 import com.aqtc.bmobnews.bean.UserBean;
-import com.aqtc.bmobnews.model.IUserModel;
-import com.aqtc.bmobnews.model.OnLoginListener;
+import com.aqtc.bmobnews.model.imodel.IUserModel;
+import com.aqtc.bmobnews.event.OnLoginListener;
 import com.aqtc.bmobnews.model.UserModel;
 import com.aqtc.bmobnews.view.IUserLoginView;
 

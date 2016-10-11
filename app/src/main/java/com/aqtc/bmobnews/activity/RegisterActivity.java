@@ -28,7 +28,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.aqtc.bmobnews.BaseActivity;
 import com.aqtc.bmobnews.R;
 
 import java.util.ArrayList;

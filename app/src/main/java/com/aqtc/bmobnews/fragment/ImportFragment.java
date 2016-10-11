@@ -15,7 +15,7 @@ import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.activity.DailyDetailActivity;
 import com.aqtc.bmobnews.adapter.MainAdapter;
 import com.aqtc.bmobnews.bean.GankDaily;
-import com.aqtc.bmobnews.constant.URLConstant;
+import com.aqtc.bmobnews.data.constant.URLConstant;
 import com.aqtc.bmobnews.util.HttpUtil;
 import com.google.gson.Gson;
 

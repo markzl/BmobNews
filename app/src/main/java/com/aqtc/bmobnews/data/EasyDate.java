@@ -1,6 +1,6 @@
 package com.aqtc.bmobnews.data;
 
-import com.aqtc.bmobnews.constant.GankApi;
+import com.aqtc.bmobnews.data.constant.GankApi;
 import com.aqtc.bmobnews.util.DateUtils;
 
 import java.io.Serializable;

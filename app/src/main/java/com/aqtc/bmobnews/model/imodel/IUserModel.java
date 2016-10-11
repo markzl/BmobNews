@@ -1,4 +1,6 @@
-package com.aqtc.bmobnews.model;
+package com.aqtc.bmobnews.model.imodel;
+
+import com.aqtc.bmobnews.event.OnLoginListener;
 
 /**
  * Created by markzl on 2016/9/20.

@@ -15,6 +15,7 @@ public class GankData extends Error implements Serializable {
 
     @SerializedName("error")
     public boolean error;
+
     @SerializedName("results")
     public ArrayList<BaseGankData> results;
 }
