@@ -55,21 +55,27 @@ public abstract class EasyRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     public abstract void onBindRecyclerViewHolder(EasyRecyclerViewHolder viewHolder, int position);
 
 
-
     public <T> T getItem(int position) {
 
         return (T) mList.get(position);
     }
 
+    public void setList(List list) {
+        this.mList.clear();
+        if (list == null) return;
+        this.mList.addAll(list);
+    }
+
     /**
      * 刷新数据并更新列表
+     *
      * @param list
      */
     public void setRefreshData(List list) {
 
-        mList.clear();
+        this.mList.clear();
         if (list == null) return;
-        mList.addAll(list);
+        this.mList.addAll(list);
         this.notifyDataSetChanged();
     }
 
@@ -78,11 +84,12 @@ public abstract class EasyRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
      */
     public void clear() {
         mList.clear();
-        this.notifyDataSetChanged();
+        //this.notifyDataSetChanged();
     }
 
     /**
      * list.remove(Object)对象
+     *
      * @param o
      */
     public void remove(Object o) {
@@ -91,12 +98,14 @@ public abstract class EasyRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     }
 
     /**
-     * 添加Collection对象，并更新列表
+     * 添加Collection对象，
+     *
      * @param list
      */
     public void addAll(Collection list) {
         if (list == null) return;
         this.mList.addAll(list);
+        this.notifyDataSetChanged();
     }
 
     public List getList() {
@@ -148,6 +157,7 @@ public abstract class EasyRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
 
     /**
      * 设置自定义单点击事件
+     *
      * @param onItemClickListener
      */
     public void setOnItemClickListener(EasyRecyclerViewHolder.OnItemClickListener onItemClickListener) {
@@ -157,6 +167,7 @@ public abstract class EasyRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
 
     /**
      * 设置长按点击事件
+     *
      * @param onItemLongClickListener
      */
     public void setOnItemLongClickListener(EasyRecyclerViewHolder.OnItemLongClickListener onItemLongClickListener) {

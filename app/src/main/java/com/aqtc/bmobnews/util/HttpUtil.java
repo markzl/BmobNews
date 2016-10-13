@@ -12,6 +12,7 @@ import java.net.URL;
 /**
  * Created by markzl on 2016/9/12.
  * email:1015653112@qq.com
+ * 测试用
  */
 public class HttpUtil {
 

@@ -1,4 +1,4 @@
-package com.aqtc.bmobnews.data.constant;
+package com.aqtc.bmobnews.data.gank;
 
 /**
  * Created by markzl on 2016/10/2.
@@ -6,6 +6,11 @@ package com.aqtc.bmobnews.data.constant;
  */
 
 public class GankType {
+
+    /**
+     * 获取最新数据
+     */
+    public static final int DONT_SWITCH = -1;
 
     public static final int daily=22061;
     public static final int android=22062;

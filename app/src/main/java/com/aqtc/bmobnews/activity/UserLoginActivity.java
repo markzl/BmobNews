@@ -10,7 +10,7 @@ import android.widget.EditText;
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.bean.UserBean;
 import com.aqtc.bmobnews.presenter.LoginPresenter;
-import com.aqtc.bmobnews.view.IUserLoginView;
+import com.aqtc.bmobnews.view.UserLoginView;
 
 import butterknife.BindView;
 
@@ -18,7 +18,7 @@ import butterknife.BindView;
  * Created by markzl on 2016/9/20.
  * email:1015653112@qq.com
  */
-public class UserLoginActivity extends BaseActivity implements IUserLoginView{
+public class UserLoginActivity extends BaseActivity implements UserLoginView {
 
 
     @BindView(R.id.toolbar)

@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.aqtc.bmobnews.activity.RegisterActivity">
 
-    <include layout="@layout/layout_toolbar"/>
+    <include layout="@layout/include_toolbar"/>
     <!-- Login progress -->
     <ProgressBar
         android:id="@+id/pb_register"

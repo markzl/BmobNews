@@ -1,7 +1,7 @@
 package com.aqtc.bmobnews.data;
 
 import com.aqtc.bmobnews.EasyApplication;
-import com.aqtc.bmobnews.data.constant.GankApi;
+import com.aqtc.bmobnews.data.gank.GankApi;
 import com.orhanobut.logger.Logger;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -26,11 +26,10 @@ public class RetrofitHelper {
 
     public static RetrofitHelper getInstance() {
         if (instance == null) {
-            synchronized (RetrofitHelper.class) {
+
                 if (instance == null) {
                     instance = new RetrofitHelper();
                 }
-            }
         }
         return instance;
     }
@@ -39,6 +38,7 @@ public class RetrofitHelper {
 
         OkHttpClient okHttpClient = new OkHttpClient();
         okHttpClient.setReadTimeout(7676, TimeUnit.MILLISECONDS);
+
         if (EasyApplication.getInstance().log) {
             okHttpClient.interceptors().add(new Interceptor() {
                 @Override
@@ -57,7 +57,6 @@ public class RetrofitHelper {
                 .build();
 
     }
-
 
     /**
      * 根据接口对象获取Service

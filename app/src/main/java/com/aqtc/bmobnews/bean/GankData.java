@@ -1,6 +1,7 @@
 
 package com.aqtc.bmobnews.bean;
 
+import com.aqtc.bmobnews.bean.base.BaseGankData;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;

@@ -1,14 +1,16 @@
 package com.aqtc.bmobnews.data;
 
 
-import com.aqtc.bmobnews.bean.BaseGankData;
+import com.aqtc.bmobnews.bean.base.BaseGankData;
 import com.aqtc.bmobnews.bean.GankDaily;
+import com.aqtc.bmobnews.bean.GankData;
 import com.aqtc.bmobnews.model.DailyModel;
 import com.aqtc.bmobnews.model.DataModel;
 import com.aqtc.bmobnews.presenter.MainPresenter;
 import com.aqtc.bmobnews.util.rx.RxUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -26,11 +28,11 @@ public class DataManange {
       private int day=20;*/
     // private CompositeSubscription mSubscription = new CompositeSubscription();
     private final DailyModel dailyModel;
-    private DataModel dataModel;
+    private final DataModel dataModel;
 
     private DataManange() {
 
-        this.dataModel = new DataModel();
+        this.dataModel = DataModel.getInstance();
         this.dailyModel = DailyModel.getInstance();
     }
 
@@ -51,7 +53,7 @@ public class DataManange {
      *
      * @return
      */
-    public Observable<ArrayList<GankDaily>> getDailyDataByNetwork(MainPresenter.EasyDate currentDate) {
+    public Observable<List<GankDaily>> getDailyDataByNetwork(MainPresenter.EasyDate currentDate) {
 
 
         return Observable.just(currentDate)
@@ -75,7 +77,7 @@ public class DataManange {
                                 .compareTo(gankDaily.results.androidData.get(0).publishedAt);
                     }
                 })
-                .compose(null);
+                .compose(RxUtils.applyIOToMainThreadSchedulers());
     }
 
     /**
@@ -83,8 +85,15 @@ public class DataManange {
      *
      * @return
      */
-    public Observable<ArrayList<BaseGankData>> getDataByNetwork() {
-        return null;
+    public Observable<ArrayList<BaseGankData>> getDataByNetwork(String type, int size, int page) {
+        return dataModel.getData(type, size, page)
+                .map(new Func1<GankData, ArrayList<BaseGankData>>() {
+                    @Override
+                    public ArrayList<BaseGankData> call(GankData gankData) {
+                        return gankData.results;
+                    }
+                })
+                .compose(RxUtils.applyIOToMainThreadSchedulers());
     }
 
     /**
@@ -95,9 +104,9 @@ public class DataManange {
     public Observable<ArrayList<ArrayList<BaseGankData>>> getDailyDetailDataByNetwork() {
         return null;
     }
-   /* public void getDailyData() {
+   /* public void getDaily() {
 
-        mSubscription.add(RetrofitHelper.getInstance().createService(GankInterface.class).getDailyData(year, month, day)
+        mSubscription.add(RetrofitHelper.getInstance().createService(GankInterface.class).getDaily(year, month, day)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {

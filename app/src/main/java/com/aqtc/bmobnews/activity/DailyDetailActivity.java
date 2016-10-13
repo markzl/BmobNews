@@ -18,6 +18,7 @@ public class DailyDetailActivity extends BaseActivity{
 
     @Override
     public void initView(Bundle savedInstanceState) {
+
         GankDaily.DailyResults data= (GankDaily.DailyResults) getIntent().getExtras().getSerializable("detail");
         Log.i("xys",data.androidData.get(0).desc);
     }

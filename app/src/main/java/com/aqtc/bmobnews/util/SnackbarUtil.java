@@ -11,10 +11,12 @@ public class SnackbarUtil {
 
     /**
      * Snckbar显示消息
+     *
      * @param view
      * @param message
      */
-    public static void showMessage(View view,String message){
+    public static void showMessage(View view, String message) {
+
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 

@@ -47,6 +47,8 @@ public class MainActivity extends BaseActivity
     private int currentTabIndex;
     private long exitTime;
 
+
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;

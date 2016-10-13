@@ -1,10 +1,7 @@
-package com.aqtc.bmobnews.data;
+package com.aqtc.bmobnews.data.gank;
 
-import com.aqtc.bmobnews.bean.BaseGankData;
 import com.aqtc.bmobnews.bean.GankDaily;
 import com.aqtc.bmobnews.bean.GankData;
-
-import java.util.ArrayList;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -13,6 +10,7 @@ import rx.Observable;
 /**
  * Created by markzl on 2016/9/20.
  * email:1015653112@qq.com
+ * Gank.io提供的Api接口
  */
 public interface GankInterface {
 
@@ -23,7 +21,7 @@ public interface GankInterface {
      * @return Observable<GankDaily>
      */
     @GET("day/{year}/{month}/{day}")
-    Observable<GankDaily> getDailyData(@Path("year") int year, @Path("month") int month, @Path("day") int day);
+    Observable<GankDaily> getDaily(@Path("year") int year, @Path("month") int month, @Path("day") int day);
 
     /**
      * android、ios、welfare、前端、扩展资源、休息视频

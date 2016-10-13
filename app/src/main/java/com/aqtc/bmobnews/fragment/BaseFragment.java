@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
  * Created by markzl on 2016/9/7.
  * email:1015653112@qq.com
  */
-public abstract class BaseFragment extends Fragment{
+public abstract class BaseFragment extends Fragment {
 
     Context mContext;
     @Nullable

@@ -9,4 +9,6 @@ public class CodeConstant {
     public static int LOGIN_CODE=100;
     public static int REGISTER_CODE=101;
 
+    public static final String DAILY_DATE_FORMAT = "yyyy.MM.dd";
+
 }

@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.anupcowkur.reservoir.Reservoir;
-import com.aqtc.bmobnews.data.constant.GankApi;
+import com.aqtc.bmobnews.data.gank.GankApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.orhanobut.logger.Logger;

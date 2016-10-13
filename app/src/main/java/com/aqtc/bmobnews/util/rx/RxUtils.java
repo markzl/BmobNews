@@ -68,7 +68,6 @@ public class RxUtils {
       /*  return tObservable -> tObservable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.computation())         // TODO: remove when https://github.com/square/okhttp/issues/1592 is fixed
                 .observeOn(AndroidSchedulers.mainThread());*/
-
     }
 
 

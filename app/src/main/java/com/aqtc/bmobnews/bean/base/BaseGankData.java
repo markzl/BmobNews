@@ -1,5 +1,5 @@
 
-package com.aqtc.bmobnews.bean;
+package com.aqtc.bmobnews.bean.base;
 
 import com.google.gson.annotations.SerializedName;
 

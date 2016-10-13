@@ -1,9 +1,10 @@
 package com.aqtc.bmobnews.presenter;
 
 import com.aqtc.bmobnews.bean.GankDaily;
-import com.aqtc.bmobnews.data.constant.GankApi;
+import com.aqtc.bmobnews.data.gank.GankApi;
 import com.aqtc.bmobnews.presenter.base.BasePresenter;
 import com.aqtc.bmobnews.util.DateUtils;
+import com.aqtc.bmobnews.view.ImportView;
 import com.aqtc.bmobnews.view.base.MvpView;
 
 import java.io.Serializable;
@@ -52,25 +53,29 @@ public class MainPresenter extends BasePresenter<MvpView> {
         return page;
     }
 
-    public void getDaily(boolean isRefresh, int oldPage) {
+    public void getDaily(final boolean isRefresh, int oldPage) {
 
+        if (oldPage != -1) {
+            this.page = 1;
+        }
         this.mCompositeSubscription.add(mDataManager.getDailyDataByNetwork(currentDate)
-                .subscribe(new Subscriber<ArrayList<GankDaily>>() {
+                .subscribe(new Subscriber<List<GankDaily>>() {
                     @Override
                     public void onCompleted() {
-                        if (mCompositeSubscription != null) {
-                            mCompositeSubscription.remove(this);
+                        if (MainPresenter.this.mCompositeSubscription != null) {
+                            MainPresenter.this.mCompositeSubscription.remove(this);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
 
                     @Override
-                    public void onNext(ArrayList<GankDaily> gankDailies) {
-
+                    public void onNext(List<GankDaily> gankDailies) {
+                        if (MainPresenter.this.getMvpView() != null) {
+                            ((ImportView) MainPresenter.this.getMvpView()).onGetDailySuccess(gankDailies, isRefresh);
+                        }
                     }
                 }));
     }

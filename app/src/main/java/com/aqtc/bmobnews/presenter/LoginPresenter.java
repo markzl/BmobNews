@@ -6,7 +6,7 @@ import com.aqtc.bmobnews.bean.UserBean;
 import com.aqtc.bmobnews.model.imodel.IUserModel;
 import com.aqtc.bmobnews.event.OnLoginListener;
 import com.aqtc.bmobnews.model.UserModel;
-import com.aqtc.bmobnews.view.IUserLoginView;
+import com.aqtc.bmobnews.view.UserLoginView;
 
 /**
  * Created by markzl on 2016/9/20.
@@ -16,10 +16,10 @@ public class LoginPresenter {
 
     private IUserModel userModel;
 
-    private IUserLoginView userLoginView;
+    private UserLoginView userLoginView;
     private Handler mHandler=new Handler();
 
-    public LoginPresenter(IUserLoginView userLoginView){
+    public LoginPresenter(UserLoginView userLoginView){
         this.userLoginView=userLoginView;
         this.userModel=new UserModel();
     }

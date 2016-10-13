@@ -1,48 +1,41 @@
 <resources>
+    <!--AppTheme Style-->
+    <style name="AppTheme" parent="AppTheme.Base"></style>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
-    <declare-styleable name="MultiSwipeRefreshLayout">
-        <attr name="foreground" format="reference" />
-    </declare-styleable>
-
-    <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="CollapsingToolbarTitleStyle.About" parent="@android:style/TextAppearance">
         <item name="android:textColor">@android:color/transparent</item>
     </style>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
-    <style name="Theme.ToolBar.ZhiHu" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="actionOverflowButtonStyle">@style/ActinButton.Overflow.ZhiHu</item>
-    </style>
-    <style name="ActinButton.Overflow.ZhiHu" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
-        <item name="android:src">@mipmap/ic_menu_more_overflow</item>
-    </style>
     <!-- CardView-->
     <style name="BmobNews.Card" parent="CardView">
-        <item name="android:layout_margin">3dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginRight">2dp</item>
         <item name="contentPadding">0dp</item>
         <item name="cardCornerRadius">@dimen/card_corner_radius</item>
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardElevation">@dimen/card_elevation</item>
     </style>
-    <!--RatioImageView-->
-    <declare-styleable name="RatioImageView">
-        <attr name="imageRatio" format="float" />
-        <attr name="imageRatioType">
-            <enum name="widthHeight" value="1266" />
-            <enum name="heightWidth" value="2266" />
-        </attr>
-    </declare-styleable>
 </resources>
+<!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+&lt;!&ndash;Toolbar icon style&ndash;&gt;
+
+<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
+
+<!--<style name="Theme.ToolBar.ZhiHu" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="actionOverflowButtonStyle">@style/ActinButton.Overflow.ZhiHu</item>
+</style>
+
+<style name="ActinButton.Overflow.ZhiHu" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+    <item name="android:src">@mipmap/ic_menu_more_overflow</item>
+</style>-->

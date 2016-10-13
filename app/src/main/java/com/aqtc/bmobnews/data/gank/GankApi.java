@@ -1,5 +1,5 @@
 
-package com.aqtc.bmobnews.data.constant;
+package com.aqtc.bmobnews.data.gank;
 
 /**
  * Description：GankApi - http://gank.io/api
@@ -13,6 +13,7 @@ package com.aqtc.bmobnews.data.constant;
  * Time：2016-01-03 15:49
  */
 public class GankApi {
+
     public static final String GANK_HOME_PAGE_NAME = "干货集中营";
     public static final String GANK_HOME_PAGE_URL = "http://gank.io/";
 
@@ -29,7 +30,7 @@ public class GankApi {
     public static final String DATA_TYPE_ALL = "all";
 
     public static final int DEFAULT_DATA_SIZE = 10;
-    public static final int DEFAULT_DAILY_SIZE = 15;
+    public static final int DEFAULT_DAILY_SIZE = 6;
 
     public static final String GANK_DATA_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 }
