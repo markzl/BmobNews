@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.aqtc.bmobnews.R;
+import com.aqtc.bmobnews.activity.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;

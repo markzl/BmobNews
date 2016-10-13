@@ -1,11 +1,14 @@
 package com.aqtc.bmobnews.presenter;
 
+import android.util.Log;
+
 import com.aqtc.bmobnews.bean.GankDaily;
 import com.aqtc.bmobnews.data.gank.GankApi;
 import com.aqtc.bmobnews.presenter.base.BasePresenter;
 import com.aqtc.bmobnews.util.DateUtils;
 import com.aqtc.bmobnews.view.ImportView;
 import com.aqtc.bmobnews.view.base.MvpView;
+import com.orhanobut.logger.Logger;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -69,6 +72,15 @@ public class MainPresenter extends BasePresenter<MvpView> {
 
                     @Override
                     public void onError(Throwable e) {
+
+                        try {
+                            Logger.d(e.getMessage());
+                        } catch (Throwable e1) {
+                            e1.getMessage();
+                        } finally {
+                            MainPresenter.this.getMvpView().onFailure(e);
+                        }
+                        Log.i("xys","error!!!!!!!!!!!!!!");
                     }
 
                     @Override

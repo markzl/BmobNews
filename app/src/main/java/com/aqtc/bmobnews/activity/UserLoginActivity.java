@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.aqtc.bmobnews.R;
+import com.aqtc.bmobnews.activity.base.BaseActivity;
 import com.aqtc.bmobnews.bean.UserBean;
 import com.aqtc.bmobnews.presenter.LoginPresenter;
 import com.aqtc.bmobnews.view.UserLoginView;

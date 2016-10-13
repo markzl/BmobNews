@@ -42,7 +42,7 @@ public class RetrofitHelper {
         if (EasyApplication.getInstance().log) {
             okHttpClient.interceptors().add(new Interceptor() {
                 @Override
-                public Response intercept(Chain chain) throws IOException {
+                public Response intercept(Interceptor.Chain chain) throws IOException {
                     Response response = chain.proceed(chain.request());
                     Logger.d(chain.request().urlString());
                     return response;

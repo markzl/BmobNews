@@ -9,6 +9,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.adapter.MainAdapter;
@@ -35,12 +36,15 @@ public class ImportFragment extends BaseFragment implements
     RecyclerView mRecylerView;
 
 
-    private boolean isRefreshing = true;
+    /**
+     * 是否是刷新状态
+     */
+    private boolean isRefreshStaus = false;
 
     private MainPresenter mPresenter;
     private MainAdapter mAdapter;
     private int gankType;
-    private List<GankDaily> dailyData_list;
+    private static final int EMPTY_LIMIT = 5;
 
     @Override
     public View getInflaterView(LayoutInflater inflater) {
@@ -85,48 +89,57 @@ public class ImportFragment extends BaseFragment implements
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                if(layoutManager instanceof LinearLayoutManager){
+                if (layoutManager instanceof LinearLayoutManager) {
                     LinearLayoutManager manager = (LinearLayoutManager) layoutManager;
                     //不滚动
-                    if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                         //最后完成显示的item的position正好是最后一条数据的index
-                        if(toLast&&manager.findLastCompletelyVisibleItemPosition()==manager.getItemCount()-1){
+                        if (toLast && manager.findLastCompletelyVisibleItemPosition() == manager.getItemCount() - 1) {
                             //加载更多数据
-                        }
-                    }
-                }else if(layoutManager instanceof StaggeredGridLayoutManager){
-
-                    StaggeredGridLayoutManager manager = (StaggeredGridLayoutManager) layoutManager;
-                    //不滚动
-                    if(newState == RecyclerView.SCROLL_STATE_IDLE){
-                       //StaggeredGridLayoutManager最底部可能有两个Item
-                        //所以只要判断两个之后有一个正好是最后一条数据的index就OK
-                        int[] bottom = manager.findLastCompletelyVisibleItemPositions(new int[2]);
-                        int lastItemCount =manager.getItemCount()-1;
-                        if(toLast&&(bottom[0]==lastItemCount||bottom[1]==lastItemCount)){
-                            //加载更多数据
+                            loadMoreRequest();
                         }
                     }
                 }
-
-
-
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 //dy: y轴滑动方向 dx: x轴滑动方向 firstVisiable - lastVisiable
-                if(dy>0){
-                    this.toLast=true;
-                    Log.i("xys","上拉加载更多");
-                }else{
+                if (dy > 0) {
+                    this.toLast = true;
+                    // Log.i("xys","上拉加载更多");
+                } else {
                     //停止滑动或者是下拉刷新数据
-                    this.toLast=false;
-                    Log.i("xys","下拉刷新数据");
+                    this.toLast = false;
+                    //Log.i("xys","下拉刷新数据");
                 }
             }
         };
     }
+
+
+    /**
+     * 请求加载更多
+     */
+    private void loadMoreRequest() {
+        //没数据了
+        if (this.emptyCount >= EMPTY_LIMIT) {
+            Toast.makeText(mContext, "并没有干货了，等下一期吧，骚年", Toast.LENGTH_SHORT).show();
+            ;
+            return;
+        }
+        //如果不是在刷新状态
+        if (!this.isRefreshStaus) {
+            //加载更多
+            this.mPresenter.setPage(this.mPresenter.getPage() + 1);
+            this.mPresenter.getDaily(false, GankType.DONT_SWITCH);
+            isRefreshStaus = !isRefreshStaus;
+            this.refresh(isRefreshStaus);
+            Log.i("xys", "正在刷新3333333333333333333333!!!!!!!");
+        }
+
+    }
+
 
     /**
      * 刷新或者是下拉刷新
@@ -139,11 +152,15 @@ public class ImportFragment extends BaseFragment implements
         this.mPresenter.setPage(1);
         //刷新数据
         this.mPresenter.getDaily(true, GankType.DONT_SWITCH);
+
     }
 
     @Override
     public void onRefresh() {
-        refreshData(GankType.daily);
+        if (!isRefreshStaus) {
+            refreshData(GankType.daily);
+            Log.i("xys", "正在刷新!!!!!!!");
+        }
     }
 
     private void refresh(final boolean refresh) {
@@ -158,15 +175,7 @@ public class ImportFragment extends BaseFragment implements
     }
 
 
-    @Override
-    public void onFailure(Throwable e) {
 
-    }
-
-    @Override
-    public void onClickPicture(String url, String title, View view) {
-
-    }
 
     private int emptyCount = 0;
 
@@ -185,12 +194,23 @@ public class ImportFragment extends BaseFragment implements
             SnackbarUtil.showMessage(mRefreshLayout, "已经是最新数据了");
         } else {
             this.mAdapter.addAll(dailyData);
+            Log.i("xys", "添加更多数据成功!!!!!!!!!!");
         }
         if (dailyData.size() == 0)
             this.emptyCount++;
-        this.refresh(false);
+        isRefreshStaus = false;
+        this.refresh(isRefreshStaus);
+    }
+    @Override
+    public void onFailure(Throwable e) {
+        isRefreshStaus = false;
+        this.refresh(isRefreshStaus);
     }
 
+    @Override
+    public void onClickPicture(String url, String title, View view) {
+
+    }
     @Override
     public void onDestroy() {
         this.mPresenter.detachView();

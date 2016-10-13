@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.aqtc.bmobnews.R;
+import com.aqtc.bmobnews.activity.base.BaseActivity;
 import com.aqtc.bmobnews.bean.GankDaily;
 
 /**
  * Created by markzl on 2016/9/14.
  * email:1015653112@qq.com
  */
-public class DailyDetailActivity extends BaseActivity{
+public class DailyDetailActivity extends BaseActivity {
     @Override
     public int getLayoutId() {
         return R.layout.activity_about;

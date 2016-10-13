@@ -62,58 +62,7 @@ public class GalleryFragment extends BaseFragment
         mRecylerView.addOnScrollListener(this.getRecyclerViewScrollListener());
     }
 
-    private RecyclerView.OnScrollListener getRecyclerViewScrollListener() {
 
-        return new RecyclerView.OnScrollListener() {
-
-            private boolean toLast = false;
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
-                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                if(layoutManager instanceof LinearLayoutManager){
-                    LinearLayoutManager manager = (LinearLayoutManager) layoutManager;
-                    //不滚动
-                    if(newState == RecyclerView.SCROLL_STATE_IDLE){
-                        //最后完成显示的item的position正好是最后一条数据的index
-                        if(toLast&&manager.findLastCompletelyVisibleItemPosition()==manager.getItemCount()-1){
-                            //加载更多数据
-                        }
-                    }
-                }else if(layoutManager instanceof StaggeredGridLayoutManager){
-
-                    StaggeredGridLayoutManager manager = (StaggeredGridLayoutManager) layoutManager;
-                    //不滚动
-                    if(newState == RecyclerView.SCROLL_STATE_IDLE){
-                        //StaggeredGridLayoutManager最底部可能有两个Item
-                        //所以只要判断两个之后有一个正好是最后一条数据的index就OK
-                        int[] bottom = manager.findLastCompletelyVisibleItemPositions(new int[2]);
-                        int lastItemCount =manager.getItemCount()-1;
-                        if(toLast&&(bottom[0]==lastItemCount||bottom[1]==lastItemCount)){
-                            //加载更多数据
-                        }
-                    }
-                }
-
-
-
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                //dy: y轴滑动方向 dx: x轴滑动方向 firstVisiable - lastVisiable
-                if(dy>0){
-                    this.toLast=true;
-                    Log.i("xys","上拉加载更多");
-                }else{
-                    //停止滑动或者是下拉刷新数据
-                    this.toLast=false;
-                    Log.i("xys","下拉刷新数据");
-                }
-            }
-        };
-    }
     @Override
     public void initData() {
 
@@ -126,11 +75,75 @@ public class GalleryFragment extends BaseFragment
         this.refreshData();
     }
 
-    private void refreshData() {
-        refresh(true);
-        page = 1;
-        this.mPresenter.getData(GankApi.DATA_TYPE_WELFARE, GankApi.DEFAULT_DATA_SIZE, page);
+    private RecyclerView.OnScrollListener getRecyclerViewScrollListener() {
+
+        return new RecyclerView.OnScrollListener() {
+
+            private boolean toLast = false;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if (layoutManager instanceof LinearLayoutManager) {
+                    LinearLayoutManager manager = (LinearLayoutManager) layoutManager;
+                    //不滚动
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        //最后完成显示的item的position正好是最后一条数据的index
+                        if (toLast && manager.findLastCompletelyVisibleItemPosition() == manager.getItemCount() - 1) {
+                            //加载更多数据
+                        }
+                    }
+                } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+
+                    StaggeredGridLayoutManager manager = (StaggeredGridLayoutManager) layoutManager;
+                    //不滚动
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        //StaggeredGridLayoutManager最底部可能有两个Item
+                        //所以只要判断两个之后有一个正好是最后一条数据的index就OK
+                        int[] bottom = manager.findLastCompletelyVisibleItemPositions(new int[2]);
+                        int lastItemCount = manager.getItemCount() - 1;
+                        if (toLast && (bottom[0] == lastItemCount || bottom[1] == lastItemCount)) {
+                            //加载更多数据
+                            loadMoreRequest();
+                        }
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                //dy: y轴滑动方向 dx: x轴滑动方向 firstVisiable - lastVisiable
+                if (dy > 0) {
+                    this.toLast = true;
+                    //Log.i("xys","上拉加载更多");
+                } else {
+                    //停止滑动或者是下拉刷新数据
+                    this.toLast = false;
+                    //Log.i("xys","下拉刷新数据");
+                }
+            }
+        };
     }
+
+    private boolean isRefreshStatus;
+
+    /**
+     * 加载更多数据
+     */
+    private void loadMoreRequest() {
+
+        if (!isRefreshStatus) {
+            isRefreshStatus = !isRefreshStatus;
+            refresh(isRefreshStatus);
+            this.mPresenter.setPage(this.mPresenter.getPage() + 1);
+            this.mPresenter.getData(false, GankType.DONT_SWITCH);
+
+        }
+    }
+
 
     private void refresh(boolean refresh) {
 
@@ -144,14 +157,29 @@ public class GalleryFragment extends BaseFragment
 
     @Override
     public void onRefresh() {
-        refreshData();
+        if (mRefreshLayout == null) return;
+        if (!isRefreshStatus) {
+            isRefreshStatus = !isRefreshStatus;
+            refreshData();
+        }
+    }
+
+    private void refreshData() {
+        refresh(true);
+        this.mPresenter.setPage(1);
+        this.mPresenter.getData(true, GankType.DONT_SWITCH);
     }
 
     @Override
-    public void onGetGalleryDataSuccess(ArrayList<BaseGankData> baseGankDatas) {
-        this.mAdapter.addAll(baseGankDatas);
-        this.mAdapter.notifyDataSetChanged();
-        refresh(false);
+    public void onGetGalleryDataSuccess(ArrayList<BaseGankData> baseGankDatas, boolean refresh) {
+
+        if (refresh) {
+            this.mAdapter.setRefreshData(baseGankDatas);
+        } else {
+            this.mAdapter.addAll(baseGankDatas);
+        }
+        isRefreshStatus = false;
+        refresh(isRefreshStatus);
     }
 
     @Override
@@ -162,5 +190,11 @@ public class GalleryFragment extends BaseFragment
     @Override
     public void onClickPicture(String url, String title, View view) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        this.mPresenter.detachView();
+        super.onDestroy();
     }
 }

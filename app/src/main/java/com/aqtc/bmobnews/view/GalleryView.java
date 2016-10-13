@@ -10,11 +10,12 @@ import java.util.ArrayList;
  * email:1015653112@qq.com
  */
 
-public interface GalleryView extends MvpView{
+public interface GalleryView extends MvpView {
 
     /**
      * 获取福利类型数据成功
+     *
      * @param baseGankDatas
      */
-    void onGetGalleryDataSuccess(ArrayList<BaseGankData> baseGankDatas);
+    void onGetGalleryDataSuccess(ArrayList<BaseGankData> baseGankDatas, boolean refresh);
 }

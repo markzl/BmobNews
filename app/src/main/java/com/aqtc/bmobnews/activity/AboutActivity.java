@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.aqtc.bmobnews.R;
+import com.aqtc.bmobnews.activity.base.BaseActivity;
 
 import butterknife.BindView;
 
@@ -17,7 +18,7 @@ import butterknife.BindView;
  * Created by markzl on 2016/9/7.
  * email:1015653112@qq.com
  */
-public class AboutActivity extends BaseActivity{
+public class AboutActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;

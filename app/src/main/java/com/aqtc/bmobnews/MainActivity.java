@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.aqtc.bmobnews.activity.AboutActivity;
-import com.aqtc.bmobnews.activity.BaseActivity;
+import com.aqtc.bmobnews.activity.base.BaseActivity;
 import com.aqtc.bmobnews.activity.LoginActivity;
 import com.aqtc.bmobnews.activity.RegisterActivity;
 import com.aqtc.bmobnews.fragment.GalleryFragment;

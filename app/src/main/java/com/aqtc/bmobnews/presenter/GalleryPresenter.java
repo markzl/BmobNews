@@ -1,6 +1,7 @@
 package com.aqtc.bmobnews.presenter;
 
 import com.aqtc.bmobnews.bean.base.BaseGankData;
+import com.aqtc.bmobnews.data.gank.GankApi;
 import com.aqtc.bmobnews.presenter.base.BasePresenter;
 import com.aqtc.bmobnews.view.GalleryView;
 import com.aqtc.bmobnews.view.base.MvpView;
@@ -30,13 +31,16 @@ public class GalleryPresenter extends BasePresenter<MvpView> {
         this.page = page;
     }
 
-    public void getData(String type, int size, int page) {
+    public void getData(boolean refresh, int oldPage) {
 
-        this.mCompositeSubscription.add(this.mDataManager.getDataByNetwork(type, size, page)
+        if (oldPage != -1) {
+            this.page = 1;
+        }
+        this.mCompositeSubscription.add(this.mDataManager.getDataByNetwork(GankApi.DATA_TYPE_WELFARE, GankApi.DEFAULT_DATA_SIZE, page)
                 .subscribe(new Subscriber<ArrayList<BaseGankData>>() {
                     @Override
                     public void onCompleted() {
-                        if(mCompositeSubscription!=null){
+                        if (mCompositeSubscription != null) {
                             mCompositeSubscription.remove(this);
                         }
                     }
@@ -49,9 +53,9 @@ public class GalleryPresenter extends BasePresenter<MvpView> {
                     @Override
                     public void onNext(ArrayList<BaseGankData> baseGankDatas) {
 
-                        if(GalleryPresenter.this.getMvpView()!=null){
+                        if (GalleryPresenter.this.getMvpView() != null) {
 
-                            ((GalleryView)GalleryPresenter.this.getMvpView()).onGetGalleryDataSuccess(baseGankDatas);
+                            ((GalleryView) GalleryPresenter.this.getMvpView()).onGetGalleryDataSuccess(baseGankDatas,refresh);
                         }
                     }
                 }));
