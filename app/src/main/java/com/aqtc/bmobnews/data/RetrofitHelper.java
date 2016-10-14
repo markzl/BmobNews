@@ -1,6 +1,6 @@
 package com.aqtc.bmobnews.data;
 
-import com.aqtc.bmobnews.EasyApplication;
+import com.aqtc.bmobnews.BmobApplication;
 import com.aqtc.bmobnews.data.gank.GankApi;
 import com.orhanobut.logger.Logger;
 import com.squareup.okhttp.Interceptor;
@@ -39,7 +39,7 @@ public class RetrofitHelper {
         OkHttpClient okHttpClient = new OkHttpClient();
         okHttpClient.setReadTimeout(7676, TimeUnit.MILLISECONDS);
 
-        if (EasyApplication.getInstance().log) {
+        if (BmobApplication.getInstance().log) {
             okHttpClient.interceptors().add(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
@@ -53,7 +53,7 @@ public class RetrofitHelper {
         retrofit = new Retrofit.Builder()
                 .baseUrl(GankApi.BASE_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(EasyApplication.getInstance().gson))
+                .addConverterFactory(GsonConverterFactory.create(BmobApplication.getInstance().gson))
                 .build();
 
     }

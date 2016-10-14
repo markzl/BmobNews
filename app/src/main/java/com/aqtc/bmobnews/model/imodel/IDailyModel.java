@@ -1,6 +1,7 @@
 package com.aqtc.bmobnews.model.imodel;
 
 import com.aqtc.bmobnews.bean.GankDaily;
+import com.aqtc.bmobnews.bean.GankHistroy;
 
 import rx.Observable;
 
@@ -20,4 +21,10 @@ public interface IDailyModel {
      * @return Observable<GankDaily>
      */
     Observable<GankDaily> getDaily(int year,int month,int day);
+
+    /**
+     * 获取发过干货日期接口
+     * @return
+     */
+    Observable<GankHistroy> getDateHistroy();
 }

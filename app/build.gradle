@@ -42,6 +42,7 @@ android {
 }
 
 dependencies {
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
@@ -57,8 +58,7 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'org.jsoup:jsoup:1.9.2'
     compile 'com.squareup.okio:okio:1.10.0'
-    compile 'com.github.anupcowkur:reservoir:1.2'
+    compile 'com.anupcowkur:reservoir:2.1'
     compile 'com.squareup.okhttp:okhttp:2.7.0'
 }

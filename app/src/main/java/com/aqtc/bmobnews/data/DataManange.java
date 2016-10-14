@@ -1,9 +1,9 @@
 package com.aqtc.bmobnews.data;
 
 
-import com.aqtc.bmobnews.bean.base.BaseGankData;
 import com.aqtc.bmobnews.bean.GankDaily;
 import com.aqtc.bmobnews.bean.GankData;
+import com.aqtc.bmobnews.bean.base.BaseGankData;
 import com.aqtc.bmobnews.model.DailyModel;
 import com.aqtc.bmobnews.model.DataModel;
 import com.aqtc.bmobnews.presenter.MainPresenter;
@@ -67,7 +67,14 @@ public class DataManange {
                 .flatMap(new Func1<MainPresenter.EasyDate, Observable<GankDaily>>() {
                     @Override
                     public Observable<GankDaily> call(MainPresenter.EasyDate easyDate) {
-                        return dailyModel.getDaily(easyDate.getYear(), easyDate.getMonth(), easyDate.getDay());
+                        return dailyModel
+                                .getDaily(easyDate.getYear(), easyDate.getMonth(), easyDate.getDay())
+                                .filter(new Func1<GankDaily, Boolean>() {
+                                    @Override
+                                    public Boolean call(GankDaily gankDaily) {
+                                        return gankDaily.results.androidData!=null;
+                                    }
+                                });
                     }
                 })
                 .toSortedList(new Func2<GankDaily, GankDaily, Integer>() {
@@ -104,56 +111,5 @@ public class DataManange {
     public Observable<ArrayList<ArrayList<BaseGankData>>> getDailyDetailDataByNetwork() {
         return null;
     }
-   /* public void getDaily() {
 
-        mSubscription.add(RetrofitHelper.getInstance().createService(GankInterface.class).getDaily(year, month, day)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        Log.i("xys", "doOnSubscibe");
-                    }
-                })
-                .subscribe(new Observer<GankDaily>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i("xys", "Completed");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i("xys", "Error");
-                    }
-
-                    @Override
-                    public void onNext(GankDaily gankDaily) {
-
-                        Log.i("xyss", gankDaily.category.toString());
-                    }
-                }));
-
-
-    }*/
-
-   /* public Observable<List<GankDaily>> getDailyDataByNetwork(EasyDate currentDate) {
-        return Observable.just(currentDate)
-                .flatMapIterable(EasyDate::getPastTime)
-                .flatMap(easyDate -> {
-                            *//*
-                             * 感觉Android的数据应该不会为null
-                             * 所以以Android的数据为判断是否当天有数据
-                             *//*
-                    return this.dailyModel.getDaily(easyDate.getYear(),
-                            easyDate.getMonth(), easyDate.getDay())
-                            .filter(dailyData ->
-                                    dailyData.results.androidData != null);
-                })
-                .toSortedList((dailyData, dailyData2) -> {
-                    return dailyData2.results.androidData.get(0).publishedAt.compareTo(
-                            dailyData.results.androidData.get(0).publishedAt);
-                })
-                .compose(RxUtils.applyIOToMainThreadSchedulers());
-    }
-*/
 }

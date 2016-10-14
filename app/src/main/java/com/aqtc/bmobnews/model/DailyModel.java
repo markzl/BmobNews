@@ -1,8 +1,9 @@
 package com.aqtc.bmobnews.model;
 
 import com.aqtc.bmobnews.bean.GankDaily;
-import com.aqtc.bmobnews.data.gank.GankInterface;
+import com.aqtc.bmobnews.bean.GankHistroy;
 import com.aqtc.bmobnews.data.RetrofitHelper;
+import com.aqtc.bmobnews.data.gank.GankInterface;
 import com.aqtc.bmobnews.model.imodel.IDailyModel;
 
 import rx.Observable;
@@ -24,7 +25,8 @@ public class DailyModel implements IDailyModel {
         return instance;
     }
 
-    private DailyModel() {}
+    private DailyModel() {
+    }
 
     /**
      * 查询每日数据
@@ -38,5 +40,11 @@ public class DailyModel implements IDailyModel {
     public Observable<GankDaily> getDaily(int year, int month, int day) {
 
         return RetrofitHelper.getInstance().createService(GankInterface.class).getDaily(year, month, day);
+    }
+
+    @Override
+    public Observable<GankHistroy> getDateHistroy() {
+
+        return RetrofitHelper.getInstance().createService(GankInterface.class).getDateHistroy();
     }
 }

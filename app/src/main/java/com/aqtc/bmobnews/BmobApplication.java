@@ -15,9 +15,9 @@ import com.orhanobut.logger.Logger;
  * email: 1015653112@qq.com
  */
 
-public class EasyApplication extends Application {
+public class BmobApplication extends Application {
 
-    private static EasyApplication instance = new EasyApplication();
+    private static BmobApplication instance = new BmobApplication();
     public boolean log = true;
     public Gson gson;
 
@@ -25,7 +25,7 @@ public class EasyApplication extends Application {
     public static final long ONE_MB = ONE_KB * 1024L;
     public static final long CACHE_DATA_MAX_SIZE = ONE_MB * 3L;
 
-    public static EasyApplication getInstance() {
+    public static BmobApplication getInstance() {
         return instance;
     }
 
@@ -46,6 +46,7 @@ public class EasyApplication extends Application {
     }
 
     private void initGson() {
+
         this.gson = new GsonBuilder().setDateFormat(GankApi.GANK_DATA_FORMAT).create();
     }
 

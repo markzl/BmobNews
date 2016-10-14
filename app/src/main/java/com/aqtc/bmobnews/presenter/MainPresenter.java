@@ -1,16 +1,19 @@
 package com.aqtc.bmobnews.presenter;
 
-import android.util.Log;
-
+import com.anupcowkur.reservoir.ReservoirGetCallback;
 import com.aqtc.bmobnews.bean.GankDaily;
 import com.aqtc.bmobnews.data.gank.GankApi;
+import com.aqtc.bmobnews.data.gank.GankType;
 import com.aqtc.bmobnews.presenter.base.BasePresenter;
 import com.aqtc.bmobnews.util.DateUtils;
+import com.aqtc.bmobnews.util.ReservoirUtil;
 import com.aqtc.bmobnews.view.ImportView;
 import com.aqtc.bmobnews.view.base.MvpView;
+import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,10 +30,11 @@ public class MainPresenter extends BasePresenter<MvpView> {
 
     private int page;
     private EasyDate currentDate;
-
+    private ReservoirUtil reservoirUtil;
 
     public MainPresenter() {
-        // reservoirUtils = new ReservoirUtils();
+
+        reservoirUtil = new ReservoirUtil();
         long time = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);
@@ -78,13 +82,40 @@ public class MainPresenter extends BasePresenter<MvpView> {
                         } catch (Throwable e1) {
                             e1.getMessage();
                         } finally {
-                            MainPresenter.this.getMvpView().onFailure(e);
+                            if (isRefresh) {
+                                Type resultType = new TypeToken<List<GankDaily>>() {
+                                }.getType();
+
+                                MainPresenter.this.reservoirUtil.get(GankType.daily + "", resultType, new ReservoirGetCallback<List<GankDaily>>() {
+                                    @Override
+                                    public void onSuccess(List<GankDaily> gankDailies) {
+                                        //如果有缓存显示缓存数据
+                                        if (MainPresenter.this.getMvpView() != null) {
+                                            ((ImportView) (MainPresenter.this.getMvpView())).onGetDailySuccess(gankDailies, isRefresh);
+                                        }
+                                        if (MainPresenter.this.getMvpView() != null) {
+                                            MainPresenter.this.getMvpView().onFailure(e);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Exception e) {
+
+                                    }
+                                });
+                            } else {
+                                //加载更多失败
+                                MainPresenter.this.getMvpView().onFailure(e);
+                            }
                         }
-                        Log.i("xys","error!!!!!!!!!!!!!!");
                     }
 
                     @Override
                     public void onNext(List<GankDaily> gankDailies) {
+
+                        if(isRefresh){
+                            MainPresenter.this.reservoirUtil.refresh(GankType.daily+"",gankDailies);
+                        }
                         if (MainPresenter.this.getMvpView() != null) {
                             ((ImportView) MainPresenter.this.getMvpView()).onGetDailySuccess(gankDailies, isRefresh);
                         }

@@ -2,6 +2,7 @@ package com.aqtc.bmobnews.data.gank;
 
 import com.aqtc.bmobnews.bean.GankDaily;
 import com.aqtc.bmobnews.bean.GankData;
+import com.aqtc.bmobnews.bean.GankHistroy;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -33,4 +34,12 @@ public interface GankInterface {
      */
     @GET("data/{type}/{size}/{page}")
     Observable<GankData> getData(@Path("type") String type, @Path("size") int size, @Path("page") int page);
+
+    /**
+     * 获取发过干货日期接口
+     *
+     * @return List<String>
+     */
+    @GET("day/history")
+    Observable<GankHistroy> getDateHistroy();
 }

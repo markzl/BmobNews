@@ -5,7 +5,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,7 +134,6 @@ public class ImportFragment extends BaseFragment implements
             this.mPresenter.getDaily(false, GankType.DONT_SWITCH);
             isRefreshStaus = !isRefreshStaus;
             this.refresh(isRefreshStaus);
-            Log.i("xys", "正在刷新3333333333333333333333!!!!!!!");
         }
 
     }
@@ -159,7 +157,6 @@ public class ImportFragment extends BaseFragment implements
     public void onRefresh() {
         if (!isRefreshStaus) {
             refreshData(GankType.daily);
-            Log.i("xys", "正在刷新!!!!!!!");
         }
     }
 
@@ -191,10 +188,9 @@ public class ImportFragment extends BaseFragment implements
         if (refresh) {
             this.emptyCount = 0;
             this.mAdapter.setRefreshData(dailyData);
-            SnackbarUtil.showMessage(mRefreshLayout, "已经是最新数据了");
+            SnackbarUtil.showMessage(mRefreshLayout, "已经是最新数据了T~T");
         } else {
             this.mAdapter.addAll(dailyData);
-            Log.i("xys", "添加更多数据成功!!!!!!!!!!");
         }
         if (dailyData.size() == 0)
             this.emptyCount++;
@@ -205,6 +201,7 @@ public class ImportFragment extends BaseFragment implements
     public void onFailure(Throwable e) {
         isRefreshStaus = false;
         this.refresh(isRefreshStaus);
+        SnackbarUtil.showMessage(mRefreshLayout, "加载失败，再试试T~T");
     }
 
     @Override
@@ -215,5 +212,6 @@ public class ImportFragment extends BaseFragment implements
     public void onDestroy() {
         this.mPresenter.detachView();
         super.onDestroy();
+
     }
 }
