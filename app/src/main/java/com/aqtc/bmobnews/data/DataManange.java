@@ -108,8 +108,38 @@ public class DataManange {
      *
      * @return
      */
-    public Observable<ArrayList<ArrayList<BaseGankData>>> getDailyDetailDataByNetwork() {
-        return null;
+    public Observable<ArrayList<ArrayList<BaseGankData>>> getDailyDetailDataByDailyResults(GankDaily.DailyResults dailyResults) {
+
+
+        return Observable.just(dailyResults).map(new Func1<GankDaily.DailyResults, ArrayList<ArrayList<BaseGankData>>>() {
+            @Override
+            public ArrayList<ArrayList<BaseGankData>> call(GankDaily.DailyResults results) {
+
+                ArrayList<ArrayList<BaseGankData>> cardData = new ArrayList<ArrayList<BaseGankData>>();
+                if(dailyResults.welfareData!=null&&dailyResults.welfareData.size()>0){
+                    cardData.add(dailyResults.welfareData);
+                }
+                if(dailyResults.androidData!=null&&dailyResults.androidData.size()>0){
+                    cardData.add(dailyResults.androidData);
+                }
+                if(dailyResults.iosData!=null && dailyResults.iosData.size()>0){
+                    cardData.add(dailyResults.iosData);
+                }
+                if(dailyResults.jsData!=null&& dailyResults.jsData.size()>0){
+                    cardData.add(dailyResults.jsData);
+                }
+                if(dailyResults.videoData!=null&&dailyResults.videoData.size()>0){
+                    cardData.add(dailyResults.videoData);
+                }
+                if(dailyResults.resourcesData!=null&&dailyResults.resourcesData.size()>0){
+                    cardData.add(dailyResults.resourcesData);
+                }
+                if(dailyResults.appData!=null && dailyResults.appData.size()>0){
+                    cardData.add(dailyResults.appData);
+                }
+                return cardData;
+            }
+        }).compose(RxUtils.applyIOToMainThreadSchedulers());
     }
 
 }

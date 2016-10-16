@@ -61,4 +61,5 @@ dependencies {
     compile 'com.squareup.okio:okio:1.10.0'
     compile 'com.anupcowkur:reservoir:2.1'
     compile 'com.squareup.okhttp:okhttp:2.7.0'
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 }

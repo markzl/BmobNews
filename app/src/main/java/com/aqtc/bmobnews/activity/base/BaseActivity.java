@@ -19,9 +19,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView(savedInstanceState);
         //初始化ToolBar
         initToolBar();
+        //初始化数据
+        initData();
         //系统的StatusBar
         //StatusBarCompat.compatShading(this);
     }
+
+    protected abstract void initData();
 
     public abstract int getLayoutId();
 
@@ -34,4 +38,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         super.onDestroy();
     }
+
+    
 }

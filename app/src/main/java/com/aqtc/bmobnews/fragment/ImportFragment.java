@@ -1,5 +1,6 @@
 package com.aqtc.bmobnews.fragment;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,13 +12,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.aqtc.bmobnews.R;
+import com.aqtc.bmobnews.activity.DailyDetailActivity;
 import com.aqtc.bmobnews.adapter.MainAdapter;
+import com.aqtc.bmobnews.adapter.base.EasyRecyclerViewHolder;
 import com.aqtc.bmobnews.bean.GankDaily;
+import com.aqtc.bmobnews.bean.base.BaseGankData;
 import com.aqtc.bmobnews.data.gank.GankType;
 import com.aqtc.bmobnews.presenter.MainPresenter;
 import com.aqtc.bmobnews.util.SnackbarUtil;
 import com.aqtc.bmobnews.view.ImportView;
+import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,7 +39,6 @@ public class ImportFragment extends BaseFragment implements
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycler)
     RecyclerView mRecylerView;
-
 
     /**
      * 是否是刷新状态
@@ -64,7 +69,6 @@ public class ImportFragment extends BaseFragment implements
 
     }
 
-
     @Override
     public void initData() {
         this.mPresenter = new MainPresenter();
@@ -73,11 +77,25 @@ public class ImportFragment extends BaseFragment implements
         this.gankType = GankType.daily;
         this.mAdapter = new MainAdapter(mContext, this.gankType);
         this.mAdapter.setListener(this);
+        this.mAdapter.setOnItemClickListener(new EasyRecyclerViewHolder.OnItemClickListener() {
+            @Override
+            public void onItemClick(View convertView, int position) {
+                Object o = mAdapter.getItem(position);
+                GankDaily daily = (GankDaily) o;
+                ImportFragment.this.mPresenter.getDailyDetail(daily.results);
+            }
+        });
         mRecylerView.setAdapter(mAdapter);
+
         this.refreshData(this.gankType);
 
     }
 
+    /**
+     * 获取RecyclerView的滑动监听器
+     *
+     * @return
+     */
     private RecyclerView.OnScrollListener getRecyclerViewScrollListener() {
 
         return new RecyclerView.OnScrollListener() {
@@ -116,7 +134,6 @@ public class ImportFragment extends BaseFragment implements
         };
     }
 
-
     /**
      * 请求加载更多
      */
@@ -137,7 +154,6 @@ public class ImportFragment extends BaseFragment implements
         }
 
     }
-
 
     /**
      * 刷新或者是下拉刷新
@@ -171,9 +187,6 @@ public class ImportFragment extends BaseFragment implements
 
     }
 
-
-
-
     private int emptyCount = 0;
 
     /**
@@ -197,6 +210,13 @@ public class ImportFragment extends BaseFragment implements
         isRefreshStaus = false;
         this.refresh(isRefreshStaus);
     }
+
+    @Override
+    public void onGetDailyDetail(String title, ArrayList<ArrayList<BaseGankData>> detail) {
+
+        DailyDetailActivity.startActivity(mContext, title, detail);
+    }
+
     @Override
     public void onFailure(Throwable e) {
         isRefreshStaus = false;
@@ -206,12 +226,14 @@ public class ImportFragment extends BaseFragment implements
 
     @Override
     public void onClickPicture(String url, String title, View view) {
-
+        Log.i("xys", "picture");
     }
+
     @Override
     public void onDestroy() {
         this.mPresenter.detachView();
         super.onDestroy();
 
     }
+
 }

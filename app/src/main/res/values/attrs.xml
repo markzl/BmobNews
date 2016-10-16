@@ -16,4 +16,8 @@
             <enum name="heightWidth" value="2266" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="MultiSwipeRefreshLayout">
+        <attr name="foreground" format="reference" />
+    </declare-styleable>
 </resources>

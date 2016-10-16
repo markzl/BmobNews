@@ -69,6 +69,12 @@ public class RegisterActivity extends BaseActivity implements LoaderCallbacks<Cu
     View mLoginFormView;
     @BindView(R.id.email_register_button)
     Button mEmailSignInButton;
+
+    @Override
+    protected void initData() {
+
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_register;

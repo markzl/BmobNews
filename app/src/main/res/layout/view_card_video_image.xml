@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.aqtc.bmobnews.widget.RatioImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_card_item_clickable"
+    android:padding="@dimen/item_content_padding"
+    android:scaleType="centerCrop"
+    app:imageRatio="1.0"
+    app:imageRatioType="widthHeight"/>

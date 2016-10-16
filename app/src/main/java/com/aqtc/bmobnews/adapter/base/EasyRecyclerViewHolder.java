@@ -1,6 +1,7 @@
 package com.aqtc.bmobnews.adapter.base;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 
@@ -14,29 +15,35 @@ public class EasyRecyclerViewHolder extends RecyclerView.ViewHolder {
      * 用于保存findViewById加载过的view
      */
     private final SparseArray<View> views;
-
     private View convertView;
 
-    public EasyRecyclerViewHolder(View itemView) {
-        super(itemView);
+    public EasyRecyclerViewHolder(View convertView) {
+        super(convertView);
         this.views = new SparseArray<View>();
-        this.convertView = itemView;
+        this.convertView = convertView;
+        this.convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("xts", "duabjishijian");
+            }
+        });
     }
 
     /**
      * set the on item click listener
+     *
      * @param listener
      * @param position
      */
-    public void setOnItemClickListener(final OnItemClickListener listener,final int position) {
+    public void setOnItemClickListener(final EasyRecyclerViewHolder.OnItemClickListener listener, final int position) {
 
-        if(listener==null){
-            itemView.setOnClickListener(null);
-        }else{
-            itemView.setOnClickListener(new View.OnClickListener() {
+        if (listener == null) {
+            this.itemView.setOnClickListener(null);
+        } else {
+            this.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClick(v,position);
+                    listener.onItemClick(v, position);
                 }
             });
         }
@@ -44,22 +51,37 @@ public class EasyRecyclerViewHolder extends RecyclerView.ViewHolder {
 
     /**
      * set on item long click listener
+     *
      * @param listener
      * @param position
      */
-    public void setOnItemLongClickListener(final OnItemLongClickListener listener,final int position) {
+    public void setOnItemLongClickListener(final OnItemLongClickListener listener, final int position) {
 
-        if(listener==null){
-            itemView.setOnClickListener(null);
-        }else{
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onItemLongClick(v,position);
-                }
-            });
-        }
+        if (listener == null) {
+            itemView.setOnLongClickListener(null);
+        } else itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return listener.onItemLongClick(v, position);
+            }
+        });
     }
+    //之前itemview 点击事件无法获取的原因找到了，setLongClickListener
+    // 写成了 setClickListener
+//    public void setOnItemLongClickListener(final OnItemLongClickListener listener,final int position) {
+//
+//        if(listener==null){
+//            itemView.setOnClickListener(null);
+//        }else{
+//
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    listener.onItemLongClick(v,position);
+//                }
+//            });
+//        }
+//    }
 
     /**
      * Due to the findViewById perfoemance too low

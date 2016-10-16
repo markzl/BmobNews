@@ -19,7 +19,7 @@ public class ToolsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view =inflater.inflate(R.layout.fragment__tools,null,false);
+        View view =inflater.inflate(R.layout.fragment_tools,null,false);
         return view;
     }
 }

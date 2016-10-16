@@ -36,6 +36,11 @@ public class UserLoginActivity extends BaseActivity implements UserLoginView {
     View mProgressView;
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.activity_login;
     }

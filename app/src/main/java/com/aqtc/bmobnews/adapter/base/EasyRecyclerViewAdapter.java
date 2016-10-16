@@ -1,6 +1,7 @@
 package com.aqtc.bmobnews.adapter.base;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,9 @@ import java.util.List;
 public abstract class EasyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList mList;
-    private EasyRecyclerViewHolder.OnItemClickListener onItemClickListener = null;
-    private EasyRecyclerViewHolder.OnItemLongClickListener onItemLongClickListener = null;
+    private EasyRecyclerViewHolder.OnItemClickListener onItemClickListener ;
+
+    private EasyRecyclerViewHolder.OnItemLongClickListener onItemLongClickListener ;
 
     public EasyRecyclerViewAdapter() {
         this.mList = new ArrayList();
@@ -60,11 +62,7 @@ public abstract class EasyRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         return (T) mList.get(position);
     }
 
-    public void setList(List list) {
-        this.mList.clear();
-        if (list == null) return;
-        this.mList.addAll(list);
-    }
+
 
     /**
      * 刷新数据并更新列表
@@ -108,6 +106,12 @@ public abstract class EasyRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         this.notifyDataSetChanged();
     }
 
+    public void setList(List list) {
+        this.mList.clear();
+        if (list == null) return;
+        this.mList.addAll(list);
+    }
+
     public List getList() {
         return this.mList;
     }
@@ -137,8 +141,12 @@ public abstract class EasyRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         try {
             EasyRecyclerViewHolder easyRecyclerViewHolder = (EasyRecyclerViewHolder) holder;
             this.onBindRecyclerViewHolder(easyRecyclerViewHolder, position);
-            easyRecyclerViewHolder.setOnItemClickListener(onItemClickListener, position);
-            easyRecyclerViewHolder.setOnItemLongClickListener(onItemLongClickListener, position);
+            easyRecyclerViewHolder.setOnItemClickListener(this.onItemClickListener, position);
+            //注意，之前的错误原因是
+            // setOnItemLongClickListener 和 setOnItemClickListener 方法内部一样 T~T
+            // 传入参数为空 之后 itemview.setOnClickListener(null)
+            //因此没有获得 itemview 的点击事件
+            easyRecyclerViewHolder.setOnItemLongClickListener(this.onItemLongClickListener, position);
         } catch (Exception e) {
             e.printStackTrace();
         }

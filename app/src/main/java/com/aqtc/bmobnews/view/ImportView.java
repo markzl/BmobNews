@@ -1,8 +1,10 @@
 package com.aqtc.bmobnews.view;
 
 import com.aqtc.bmobnews.bean.GankDaily;
+import com.aqtc.bmobnews.bean.base.BaseGankData;
 import com.aqtc.bmobnews.view.base.MvpView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,5 +21,11 @@ public interface ImportView extends MvpView {
      * @param refresh
      */
     void onGetDailySuccess(List<GankDaily> dailyData, boolean refresh);
+
+    /**
+     * 获取每日详情数据
+     * @param title
+     */
+    void onGetDailyDetail(String title, ArrayList<ArrayList<BaseGankData>> detail);
 
 }

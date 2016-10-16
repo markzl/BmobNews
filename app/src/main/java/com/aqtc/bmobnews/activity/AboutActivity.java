@@ -30,6 +30,11 @@ public class AboutActivity extends BaseActivity {
     TextView mVersionTv;
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.activity_about;
     }

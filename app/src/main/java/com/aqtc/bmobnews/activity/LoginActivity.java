@@ -71,6 +71,11 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     View mProgressView;
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.activity_login;
     }

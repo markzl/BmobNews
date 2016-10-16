@@ -2,6 +2,7 @@ package com.aqtc.bmobnews.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +35,6 @@ public class MainAdapter extends EasyRecyclerViewAdapter {
     private OnClickListener listener;
 
     public MainAdapter(Context context, int type) {
-
         this.context = context;
         this.type = type;
     }
@@ -103,6 +103,7 @@ public class MainAdapter extends EasyRecyclerViewAdapter {
      */
     private void loadingDaily(EasyRecyclerViewHolder easyRecyclerViewHolder, int position) {
 
+
         GankDaily dailyData = this.getItem(position);
         if (dailyData == null) return;
         ImageView dailyIV = easyRecyclerViewHolder.findViewById(R.id.iv_daily_image);
@@ -141,7 +142,6 @@ public class MainAdapter extends EasyRecyclerViewAdapter {
         } else {
             GlideUtils.displayNative(dailyIV, R.mipmap.img_default_gray);
         }
-
 
         if (dailyData.category == null) {
             androidTagTV.setVisibility(View.GONE);

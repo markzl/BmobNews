@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.adapter.MainAdapter;
+import com.aqtc.bmobnews.adapter.base.EasyRecyclerViewHolder;
 import com.aqtc.bmobnews.bean.base.BaseGankData;
 import com.aqtc.bmobnews.data.gank.GankApi;
 import com.aqtc.bmobnews.data.gank.GankType;
@@ -70,7 +71,13 @@ public class GalleryFragment extends BaseFragment
         this.mPresenter.atthachView(this);
         this.gankType = GankType.welfare;
         this.mAdapter = new MainAdapter(mContext, gankType);
-        this.mAdapter.setListener(this);
+       // this.mAdapter.setListener(this);
+        this.mAdapter.setOnItemClickListener(new EasyRecyclerViewHolder.OnItemClickListener() {
+            @Override
+            public void onItemClick(View convertView, int position) {
+                Log.i("xys","item");
+            }
+        });
         this.mRecylerView.setAdapter(mAdapter);
         this.refreshData();
     }
