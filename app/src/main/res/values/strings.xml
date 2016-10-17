@@ -7,6 +7,9 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
 
+    <!-- Used in Contacts for a field that has no label and in Note Pad
+        for a note with no name. -->
+    <string name="untitled">&lt;Untitled&gt;</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
