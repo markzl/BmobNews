@@ -1,12 +1,10 @@
 package com.aqtc.bmobnews.fragment;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -19,9 +17,9 @@ import com.aqtc.bmobnews.bean.GankDaily;
 import com.aqtc.bmobnews.bean.base.BaseGankData;
 import com.aqtc.bmobnews.data.gank.GankType;
 import com.aqtc.bmobnews.presenter.MainPresenter;
+import com.aqtc.bmobnews.util.ClickUtil;
 import com.aqtc.bmobnews.util.SnackbarUtil;
 import com.aqtc.bmobnews.view.ImportView;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +36,12 @@ public class ImportFragment extends BaseFragment implements
     @BindView(R.id.refresh)
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycler)
-    RecyclerView mRecylerView;
+    RecyclerView mRecyclerView;
 
     /**
      * 是否是刷新状态
      */
-    private boolean isRefreshStaus = false;
+    private boolean isRefreshStatus = false;
 
     private MainPresenter mPresenter;
     private MainAdapter mAdapter;
@@ -62,10 +60,10 @@ public class ImportFragment extends BaseFragment implements
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        mRecylerView.setItemAnimator(new DefaultItemAnimator());
-        mRecylerView.setHasFixedSize(true);
-        mRecylerView.setLayoutManager(new LinearLayoutManager(mContext));
-        this.mRecylerView.addOnScrollListener(this.getRecyclerViewScrollListener());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        this.mRecyclerView.addOnScrollListener(this.getRecyclerViewScrollListener());
 
     }
 
@@ -80,21 +78,22 @@ public class ImportFragment extends BaseFragment implements
         this.mAdapter.setOnItemClickListener(new EasyRecyclerViewHolder.OnItemClickListener() {
             @Override
             public void onItemClick(View convertView, int position) {
+                if (ClickUtil.isFastDoubleClick()) return;
                 Object o = mAdapter.getItem(position);
                 GankDaily daily = (GankDaily) o;
                 ImportFragment.this.mPresenter.getDailyDetail(daily.results);
             }
         });
-        mRecylerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
 
-        this.refreshData(this.gankType);
+        this.refreshData();
 
     }
 
     /**
      * 获取RecyclerView的滑动监听器
      *
-     * @return
+     * @return OnScrollListener
      */
     private RecyclerView.OnScrollListener getRecyclerViewScrollListener() {
 
@@ -121,7 +120,9 @@ public class ImportFragment extends BaseFragment implements
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                //dy: y轴滑动方向 dx: x轴滑动方向 firstVisiable - lastVisiable
+
+                this.toLast = dy > 0;
+                 /*   //dy: y轴滑动方向 dx: x轴滑动方向 firstVisiable - lastVisiable
                 if (dy > 0) {
                     this.toLast = true;
                     // Log.i("xys","上拉加载更多");
@@ -129,7 +130,7 @@ public class ImportFragment extends BaseFragment implements
                     //停止滑动或者是下拉刷新数据
                     this.toLast = false;
                     //Log.i("xys","下拉刷新数据");
-                }
+                }*/
             }
         };
     }
@@ -141,26 +142,23 @@ public class ImportFragment extends BaseFragment implements
         //没数据了
         if (this.emptyCount >= EMPTY_LIMIT) {
             Toast.makeText(mContext, "并没有干货了，等下一期吧，骚年", Toast.LENGTH_SHORT).show();
-            ;
             return;
         }
         //如果不是在刷新状态
-        if (!this.isRefreshStaus) {
+        if (!this.isRefreshStatus) {
             //加载更多
             this.mPresenter.setPage(this.mPresenter.getPage() + 1);
             this.mPresenter.getDaily(false, GankType.DONT_SWITCH);
-            isRefreshStaus = !isRefreshStaus;
-            this.refresh(isRefreshStaus);
+            isRefreshStatus = !isRefreshStatus;
+            this.refresh(isRefreshStatus);
         }
 
     }
 
     /**
      * 刷新或者是下拉刷新
-     *
-     * @param gankType
      */
-    private void refreshData(int gankType) {
+    private void refreshData() {
 
         this.refresh(true);
         this.mPresenter.setPage(1);
@@ -171,8 +169,8 @@ public class ImportFragment extends BaseFragment implements
 
     @Override
     public void onRefresh() {
-        if (!isRefreshStaus) {
-            refreshData(GankType.daily);
+        if (!isRefreshStatus) {
+            refreshData();
         }
     }
 
@@ -207,8 +205,8 @@ public class ImportFragment extends BaseFragment implements
         }
         if (dailyData.size() == 0)
             this.emptyCount++;
-        isRefreshStaus = false;
-        this.refresh(isRefreshStaus);
+        isRefreshStatus = false;
+        this.refresh(isRefreshStatus);
     }
 
     @Override
@@ -219,14 +217,13 @@ public class ImportFragment extends BaseFragment implements
 
     @Override
     public void onFailure(Throwable e) {
-        isRefreshStaus = false;
-        this.refresh(isRefreshStaus);
+        isRefreshStatus = false;
+        this.refresh(isRefreshStatus);
         SnackbarUtil.showMessage(mRefreshLayout, "加载失败，再试试T~T");
     }
 
     @Override
     public void onClickPicture(String url, String title, View view) {
-        Log.i("xys", "picture");
     }
 
     @Override

@@ -26,10 +26,11 @@ public class RetrofitHelper {
 
     public static RetrofitHelper getInstance() {
         if (instance == null) {
-
+            synchronized (RetrofitHelper.class) {
                 if (instance == null) {
                     instance = new RetrofitHelper();
                 }
+            }
         }
         return instance;
     }
@@ -60,6 +61,7 @@ public class RetrofitHelper {
 
     /**
      * 根据接口对象获取Service
+     *
      * @param clz
      * @param <T>
      * @return

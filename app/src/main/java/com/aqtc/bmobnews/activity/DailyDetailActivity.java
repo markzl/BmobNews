@@ -7,14 +7,12 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.activity.base.BaseActivity;
 import com.aqtc.bmobnews.adapter.DailyDetailAdapter;
-import com.aqtc.bmobnews.bean.GankDaily;
 import com.aqtc.bmobnews.bean.base.BaseGankData;
 
 import java.util.ArrayList;
@@ -70,7 +68,7 @@ public class DailyDetailActivity extends BaseActivity implements DailyDetailAdap
 
     @Override
     protected void initData() {
-        this.detailAdapter =new DailyDetailAdapter(this);
+        this.detailAdapter = new DailyDetailAdapter(this);
         this.detailAdapter.setOnCardItemClickListener(this);
         this.mRecyclerView.setAdapter(this.detailAdapter);
 
@@ -96,12 +94,12 @@ public class DailyDetailActivity extends BaseActivity implements DailyDetailAdap
 
     @Override
     public void onCardItemOnClick(String urlType, String title, String url) {
-
+        WebViewActivity.toURL(this,url,title,urlType);
     }
 
     @Override
     public void onWelfareOnClick(String url, String title, View v) {
-
+        //WebViewActivity.toURL(this,url,title,v);
     }
 
     @Override

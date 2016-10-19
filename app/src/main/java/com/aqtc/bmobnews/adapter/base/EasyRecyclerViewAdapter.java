@@ -1,7 +1,6 @@
 package com.aqtc.bmobnews.adapter.base;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,10 +109,6 @@ public abstract class EasyRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         this.mList.clear();
         if (list == null) return;
         this.mList.addAll(list);
-    }
-
-    public List getList() {
-        return this.mList;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.aqtc.bmobnews.adapter.base;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 
@@ -21,12 +20,7 @@ public class EasyRecyclerViewHolder extends RecyclerView.ViewHolder {
         super(convertView);
         this.views = new SparseArray<View>();
         this.convertView = convertView;
-        this.convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("xts", "duabjishijian");
-            }
-        });
+
     }
 
     /**

@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,31 +86,30 @@ public class DailyDetailAdapter extends EasyRecyclerViewAdapter {
     @Override
     public void onBindRecyclerViewHolder(EasyRecyclerViewHolder viewHolder, int position) {
         List<BaseGankData> categoryData = this.getItem(position);
-        if(categoryData ==null) return;
+        if (categoryData == null) return;
         LinearLayout detail_ll = viewHolder.findViewById(R.id.ll_daily_detail_item);
         detail_ll.removeAllViews();
-        Log.i("xys",categoryData.size()+"===");
-        for (int i =0; i<categoryData.size();i++){
+        for (int i = 0; i < categoryData.size(); i++) {
             final BaseGankData baseGankData = categoryData.get(i);
-            if(i==0){
+            if (i == 0) {
                 TextView categoryTV = this.createCardCategory(baseGankData.type);
                 detail_ll.addView(categoryTV);
                 detail_ll.addView(this.createDivider());
             }
-            if(GankTypeDict.urlType2TypeDict.get(baseGankData.type) == GankType.welfare){
+            if (GankTypeDict.urlType2TypeDict.get(baseGankData.type) == GankType.welfare) {
                 RatioImageView welfareIV = this.createRatioImageView();
-                GlideUtils.display(welfareIV,baseGankData.url);
+                GlideUtils.display(welfareIV, baseGankData.url);
                 welfareIV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(DailyDetailAdapter.this.cardItemClickListener!=null){
+                        if (DailyDetailAdapter.this.cardItemClickListener != null) {
                             DailyDetailAdapter.this.cardItemClickListener
-                                    .onWelfareOnClick(baseGankData.url,baseGankData.desc,v);
+                                    .onWelfareOnClick(baseGankData.url, baseGankData.desc, v);
                         }
                     }
                 });
                 detail_ll.addView(welfareIV);
-            }else{
+            } else {
                 TextView itemText = this.createCardItemText(baseGankData);
                 detail_ll.addView(itemText);
             }
@@ -163,6 +161,7 @@ public class DailyDetailAdapter extends EasyRecyclerViewAdapter {
 
     /**
      * 创建目录下的分支
+     *
      * @param baseGankData
      * @return
      */
@@ -197,6 +196,7 @@ public class DailyDetailAdapter extends EasyRecyclerViewAdapter {
 
     /**
      * 设置目录text点击事件
+     *
      * @param cardItemClickListener
      */
     public void setOnCardItemClickListener(OnCardItemClickListener cardItemClickListener) {

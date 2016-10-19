@@ -13,7 +13,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,9 +20,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.aqtc.bmobnews.activity.AboutActivity;
-import com.aqtc.bmobnews.activity.base.BaseActivity;
 import com.aqtc.bmobnews.activity.LoginActivity;
 import com.aqtc.bmobnews.activity.RegisterActivity;
+import com.aqtc.bmobnews.activity.base.BaseActivity;
 import com.aqtc.bmobnews.fragment.GalleryFragment;
 import com.aqtc.bmobnews.fragment.ImportFragment;
 import com.aqtc.bmobnews.fragment.SlideshowFragment;
@@ -58,10 +57,21 @@ public class MainActivity extends BaseActivity
      */
     private GoogleApiClient client;
 
-
     @Override
     public int getLayoutId() {
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         return R.layout.activity_main;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
     @Override
@@ -75,6 +85,10 @@ public class MainActivity extends BaseActivity
         fab.setOnClickListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         //Bmob.initialize(this, "ea2eab1f5e98a6742880828b66cb7a10");
+    }
+
+    @Override
+    protected void initData() {
     }
 
     @Override
@@ -107,20 +121,20 @@ public class MainActivity extends BaseActivity
         currentTabIndex = index;
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_login:
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                break;
+            case R.id.btn_register:
+                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+                break;
+            case R.id.fab:
+                Snackbar.make(fab, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                break;
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -152,21 +166,37 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_login:
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                break;
-            case R.id.btn_register:
-                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
-                break;
-            case R.id.fab:
-                Snackbar.make(fab, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                break;
-        }
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -185,46 +215,6 @@ public class MainActivity extends BaseActivity
         } else {
             finish();
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-    }
-
-    @Override
-    protected void initData() {
-
-    }
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Main Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
     @Override
