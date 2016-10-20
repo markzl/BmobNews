@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/selector_item_clickable"
         android:padding="@dimen/item_content_padding">
 
@@ -22,10 +22,11 @@
             android:id="@+id/daily_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_alignBottom="@id/iv_daily_image"
             android:layout_alignParentEnd="true"
             android:textColor="@color/item_date"
-            android:textSize="@dimen/item_date_tv" />
+            android:text="2016.10.20"
+            android:textSize="@dimen/item_date_tv"/>
 
         <TextView
             android:id="@+id/tv_daily_title"
@@ -48,17 +49,19 @@
             android:layout_alignBottom="@id/iv_daily_image"
             android:layout_marginStart="9dp"
             android:layout_toEndOf="@id/iv_daily_image"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout">
 
             <TextView
                 android:id="@+id/daily_android_tag_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:background="@drawable/bg_android_tag"
+
                 android:gravity="center"
-                android:text="@string/daily_android_tag_tv"
-                android:textColor="@color/item_tag_tv"
+                android:drawableLeft="@mipmap/icon_favorite"
+                android:drawablePadding="5dp"
+                android:text="365 喜欢"
                 android:textSize="@dimen/item_tag_tv" />
 
             <TextView
@@ -66,21 +69,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:background="@drawable/bg_ios_tag"
+                android:layout_marginStart="2dp"
                 android:gravity="center"
-                android:text="@string/daily_ios_tag_tv"
-                android:textColor="@color/item_tag_tv"
-                android:textSize="@dimen/item_tag_tv" />
-
-            <TextView
-                android:id="@+id/daily_js_tag_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/bg_js_tag"
-                android:gravity="center"
-                android:text="@string/daily_js_tag_tv"
-                android:textColor="@color/item_tag_tv"
+                android:drawableLeft="@mipmap/icon_comment"
+                android:drawablePadding="5dp"
+                android:text="20 评论"
                 android:textSize="@dimen/item_tag_tv" />
 
         </LinearLayout>

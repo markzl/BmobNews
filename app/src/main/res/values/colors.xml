@@ -10,8 +10,9 @@
     <color name="secondary_text">#727272</color>
     <color name="primary_text">#212121</color>
 
-
-    <!--首页-item-color-->
+    <!--zhihu-item-color-->
+    <color name="item_divider">#bcbaba</color>
+    <!--gank-item-color-->
     <color name="item_date">#ffA8A8A8</color>
     <color name="item_title_tv">#ff000000</color>
     <color name="item_tag_tv">#ffFFFFFF</color>

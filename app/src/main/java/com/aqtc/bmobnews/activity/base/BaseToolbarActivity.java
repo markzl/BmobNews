@@ -1,5 +1,6 @@
 package com.aqtc.bmobnews.activity.base;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,9 @@ public abstract class BaseToolbarActivity extends AppCompatActivity {
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         initView(savedInstanceState);
+        if(Build.VERSION.SDK_INT>=21){
+            toolbar.setElevation(3.0f);
+        }
         initToolBar();
         initData();
     }

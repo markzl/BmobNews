@@ -75,7 +75,7 @@ public class DailyDetailAdapter extends EasyRecyclerViewAdapter {
 
     @Override
     public int[] getItemLayouts() {
-        return new int[]{R.layout.item_daily_detail};
+        return new int[]{R.layout.item_gank_daily_detail};
     }
 
     @Override

@@ -16,6 +16,16 @@
     </style>
 
     <!-- CardView-->
+    <style name="ZhiHu.Card" parent="CardView">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="contentPadding">0dp</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+    </style>
+    <!--Gank Style CardView-->
     <style name="BmobNews.Card" parent="CardView">
         <item name="android:layout_marginTop">2dp</item>
         <item name="android:layout_marginLeft">2dp</item>

@@ -2,7 +2,6 @@ package com.aqtc.bmobnews.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,7 +40,7 @@ public class MainAdapter extends EasyRecyclerViewAdapter {
 
     @Override
     public int[] getItemLayouts() {
-        return new int[]{R.layout.item_daily, R.layout.item_welfare};
+        return new int[]{R.layout.item_gank_daily, R.layout.item_gank_welfare};
     }
 
     public int getType() {
