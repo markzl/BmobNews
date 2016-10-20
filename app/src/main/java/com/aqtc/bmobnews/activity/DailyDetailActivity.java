@@ -13,7 +13,7 @@ import android.view.View;
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.activity.base.BaseActivity;
 import com.aqtc.bmobnews.adapter.DailyDetailAdapter;
-import com.aqtc.bmobnews.bean.base.BaseGankData;
+import com.aqtc.bmobnews.bean.gank.base.BaseGankData;
 
 import java.util.ArrayList;
 

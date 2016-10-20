@@ -1,7 +1,7 @@
 package com.aqtc.bmobnews.data;
 
 import com.aqtc.bmobnews.BmobApplication;
-import com.aqtc.bmobnews.data.gank.GankApi;
+import com.aqtc.bmobnews.data.zhihu.ZhiHuType;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
@@ -17,24 +17,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by markzl on 2016/9/20.
  * email:1015653112@qq.com
  */
-public class RetrofitHelper {
-
+public class ZhiHuRetrofitHelper {
 
     private Retrofit retrofit;
-    public static RetrofitHelper instance = null;
+    public static ZhiHuRetrofitHelper instance = null;
 
-    public static RetrofitHelper getInstance() {
+    public static ZhiHuRetrofitHelper getInstance() {
         if (instance == null) {
-            synchronized (RetrofitHelper.class) {
+            synchronized (ZhiHuRetrofitHelper.class) {
                 if (instance == null) {
-                    instance = new RetrofitHelper();
+                    instance = new ZhiHuRetrofitHelper();
                 }
             }
         }
         return instance;
     }
 
-    private RetrofitHelper() {
+    private ZhiHuRetrofitHelper() {
 
         OkHttpClient okHttpClient = new OkHttpClient();
         okHttpClient.setReadTimeout(7676, TimeUnit.MILLISECONDS);
@@ -42,7 +41,7 @@ public class RetrofitHelper {
         if (BmobApplication.getInstance().log) {
             okHttpClient.interceptors().add(new Interceptor() {
                 @Override
-                public Response intercept(Interceptor.Chain chain) throws IOException {
+                public Response intercept(Chain chain) throws IOException {
                     Response response = chain.proceed(chain.request());
                     //Logger.d(chain.request().urlString());
                     return response;
@@ -51,7 +50,7 @@ public class RetrofitHelper {
         }
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(GankApi.BASE_URL)
+                .baseUrl(ZhiHuType.BASE_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(BmobApplication.getInstance().gson))
                 .build();

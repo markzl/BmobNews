@@ -1,6 +1,6 @@
 package com.aqtc.bmobnews.presenter;
 
-import com.aqtc.bmobnews.bean.base.BaseGankData;
+import com.aqtc.bmobnews.bean.gank.base.BaseGankData;
 import com.aqtc.bmobnews.data.gank.GankApi;
 import com.aqtc.bmobnews.presenter.base.BasePresenter;
 import com.aqtc.bmobnews.view.GalleryView;

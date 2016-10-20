@@ -1,6 +1,7 @@
 package com.aqtc.bmobnews.presenter.base;
 
-import com.aqtc.bmobnews.data.DataManange;
+import com.aqtc.bmobnews.data.GankDataManange;
+import com.aqtc.bmobnews.data.ZhiHuDataManange;
 import com.aqtc.bmobnews.view.base.MvpView;
 
 import rx.subscriptions.CompositeSubscription;
@@ -15,13 +16,16 @@ public class BasePresenter<T extends MvpView> implements Presenter<T> {
 
     private T mMvpView;
     public CompositeSubscription mCompositeSubscription;
-    public DataManange mDataManager;
+    public GankDataManange mDataManager;
+
+    public ZhiHuDataManange zhiHuDataManange;
 
     @Override
     public void atthachView(T mvpView) {
         this.mMvpView = mvpView;
         this.mCompositeSubscription = new CompositeSubscription();
-        this.mDataManager = DataManange.getInstance();
+        this.mDataManager = GankDataManange.getInstance();
+        this.zhiHuDataManange = ZhiHuDataManange.getInstance();
     }
 
     @Override
@@ -30,6 +34,7 @@ public class BasePresenter<T extends MvpView> implements Presenter<T> {
         this.mCompositeSubscription.unsubscribe();
         this.mCompositeSubscription = null;
         this.mDataManager = null;
+        this.zhiHuDataManange = null;
     }
 
     /**

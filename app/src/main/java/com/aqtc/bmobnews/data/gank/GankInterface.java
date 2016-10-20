@@ -1,8 +1,8 @@
 package com.aqtc.bmobnews.data.gank;
 
-import com.aqtc.bmobnews.bean.GankDaily;
-import com.aqtc.bmobnews.bean.GankData;
-import com.aqtc.bmobnews.bean.GankHistroy;
+import com.aqtc.bmobnews.bean.gank.GankDaily;
+import com.aqtc.bmobnews.bean.gank.GankData;
+import com.aqtc.bmobnews.bean.gank.GankHistroy;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;

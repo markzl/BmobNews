@@ -1,7 +1,7 @@
 package com.aqtc.bmobnews.model;
 
-import com.aqtc.bmobnews.bean.GankDaily;
-import com.aqtc.bmobnews.bean.GankHistroy;
+import com.aqtc.bmobnews.bean.gank.GankDaily;
+import com.aqtc.bmobnews.bean.gank.GankHistroy;
 import com.aqtc.bmobnews.data.RetrofitHelper;
 import com.aqtc.bmobnews.data.gank.GankInterface;
 import com.aqtc.bmobnews.model.imodel.IDailyModel;

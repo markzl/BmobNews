@@ -13,10 +13,10 @@ import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.activity.DailyDetailActivity;
 import com.aqtc.bmobnews.adapter.MainAdapter;
 import com.aqtc.bmobnews.adapter.base.EasyRecyclerViewHolder;
-import com.aqtc.bmobnews.bean.GankDaily;
-import com.aqtc.bmobnews.bean.base.BaseGankData;
+import com.aqtc.bmobnews.bean.gank.GankDaily;
+import com.aqtc.bmobnews.bean.gank.base.BaseGankData;
 import com.aqtc.bmobnews.data.gank.GankType;
-import com.aqtc.bmobnews.presenter.MainPresenter;
+import com.aqtc.bmobnews.presenter.GankPresenter;
 import com.aqtc.bmobnews.util.ClickUtil;
 import com.aqtc.bmobnews.util.SnackbarUtil;
 import com.aqtc.bmobnews.view.ImportView;
@@ -43,7 +43,7 @@ public class ImportFragment extends BaseFragment implements
      */
     private boolean isRefreshStatus = false;
 
-    private MainPresenter mPresenter;
+    private GankPresenter mPresenter;
     private MainAdapter mAdapter;
     private int gankType;
     private static final int EMPTY_LIMIT = 5;
@@ -69,7 +69,7 @@ public class ImportFragment extends BaseFragment implements
 
     @Override
     public void initData() {
-        this.mPresenter = new MainPresenter();
+        this.mPresenter = new GankPresenter();
         this.mPresenter.atthachView(this);
         //获取类型为每日推荐数据类型
         this.gankType = GankType.daily;

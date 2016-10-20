@@ -1,6 +1,6 @@
 package com.aqtc.bmobnews.model;
 
-import com.aqtc.bmobnews.bean.GankData;
+import com.aqtc.bmobnews.bean.gank.GankData;
 import com.aqtc.bmobnews.data.gank.GankInterface;
 import com.aqtc.bmobnews.data.RetrofitHelper;
 

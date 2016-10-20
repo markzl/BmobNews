@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.adapter.base.EasyRecyclerViewAdapter;
 import com.aqtc.bmobnews.adapter.base.EasyRecyclerViewHolder;
-import com.aqtc.bmobnews.bean.base.BaseGankData;
+import com.aqtc.bmobnews.bean.gank.base.BaseGankData;
 import com.aqtc.bmobnews.data.gank.GankType;
 import com.aqtc.bmobnews.data.gank.GankTypeDict;
 import com.aqtc.bmobnews.util.GlideUtils;

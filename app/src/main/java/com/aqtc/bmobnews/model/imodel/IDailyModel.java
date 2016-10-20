@@ -1,7 +1,7 @@
 package com.aqtc.bmobnews.model.imodel;
 
-import com.aqtc.bmobnews.bean.GankDaily;
-import com.aqtc.bmobnews.bean.GankHistroy;
+import com.aqtc.bmobnews.bean.gank.GankDaily;
+import com.aqtc.bmobnews.bean.gank.GankHistroy;
 
 import rx.Observable;
 
