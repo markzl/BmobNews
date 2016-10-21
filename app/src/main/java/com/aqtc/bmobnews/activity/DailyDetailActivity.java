@@ -13,6 +13,7 @@ import android.view.View;
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.activity.base.BaseActivity;
 import com.aqtc.bmobnews.adapter.DailyDetailAdapter;
+import com.aqtc.bmobnews.adapter.base.EasyBorderDividerItemDecoration;
 import com.aqtc.bmobnews.bean.gank.base.BaseGankData;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class DailyDetailActivity extends BaseActivity implements DailyDetailAdap
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    private EasyBorderDividerItemDecoration dataDecoration;
     private DailyDetailAdapter detailAdapter;
 
     public static void startActivity(Context context, String title, ArrayList<ArrayList<BaseGankData>> detail) {
@@ -51,6 +53,10 @@ public class DailyDetailActivity extends BaseActivity implements DailyDetailAdap
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        this.dataDecoration = new EasyBorderDividerItemDecoration(
+                this.getResources().getDimensionPixelOffset(R.dimen.data_border_divider_height),
+                6);
+        mRecyclerView.addItemDecoration(this.dataDecoration);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

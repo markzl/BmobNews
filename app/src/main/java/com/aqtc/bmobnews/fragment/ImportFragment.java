@@ -12,10 +12,12 @@ import android.widget.Toast;
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.activity.DailyDetailActivity;
 import com.aqtc.bmobnews.adapter.MainAdapter;
+import com.aqtc.bmobnews.adapter.base.EasyBorderDividerItemDecoration;
 import com.aqtc.bmobnews.adapter.base.EasyRecyclerViewHolder;
 import com.aqtc.bmobnews.bean.gank.GankDaily;
 import com.aqtc.bmobnews.bean.gank.base.BaseGankData;
 import com.aqtc.bmobnews.data.gank.GankType;
+import com.aqtc.bmobnews.fragment.base.BaseFragment;
 import com.aqtc.bmobnews.presenter.GankPresenter;
 import com.aqtc.bmobnews.util.ClickUtil;
 import com.aqtc.bmobnews.util.SnackbarUtil;
@@ -48,6 +50,8 @@ public class ImportFragment extends BaseFragment implements
     private int gankType;
     private static final int EMPTY_LIMIT = 5;
 
+    private EasyBorderDividerItemDecoration dataDecoration;
+
     @Override
     public View getInflaterView(LayoutInflater inflater) {
         return inflater.inflate(R.layout.fragment_import, null, false);
@@ -55,14 +59,20 @@ public class ImportFragment extends BaseFragment implements
 
     @Override
     public void initView() {
-        mRefreshLayout.setOnRefreshListener(this);
+
         mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+        this.dataDecoration = new EasyBorderDividerItemDecoration(
+                this.getResources().getDimensionPixelOffset(R.dimen.data_border_divider_height),
+                this.getResources().getDimensionPixelOffset(R.dimen.data_border_padding_infra_spans));
+        mRecyclerView.addItemDecoration(this.dataDecoration);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        mRefreshLayout.setOnRefreshListener(this);
         this.mRecyclerView.addOnScrollListener(this.getRecyclerViewScrollListener());
 
     }

@@ -1,4 +1,4 @@
-package com.aqtc.bmobnews.fragment;
+package com.aqtc.bmobnews.fragment.base;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment extends Fragment {
 
-    Context mContext;
+    public Context mContext;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

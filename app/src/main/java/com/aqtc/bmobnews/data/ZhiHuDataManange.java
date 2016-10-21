@@ -45,4 +45,23 @@ public class ZhiHuDataManange {
                     }
                 });
     }
+
+    /**
+     * 获取更多数据
+     * @param type 类型
+     * @param date
+     * @return
+     */
+    public Observable<ZhiHuDaily> getMoreDailyData(String type,String date){
+        return ZhiHuRetrofitHelper.getInstance()
+                .createService(ZhiHuInterface.class)
+                .getMoreDaily(type,date)
+                .filter(new Func1<ZhiHuDaily, Boolean>() {
+                    @Override
+                    public Boolean call(ZhiHuDaily zhiHuDaily) {
+                        return zhiHuDaily!=null;
+                    }
+                });
+    }
+
 }

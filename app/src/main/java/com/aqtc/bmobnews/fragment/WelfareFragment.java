@@ -12,9 +12,11 @@ import android.view.View;
 
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.adapter.MainAdapter;
+import com.aqtc.bmobnews.adapter.base.EasyBorderDividerItemDecoration;
 import com.aqtc.bmobnews.adapter.base.EasyRecyclerViewHolder;
 import com.aqtc.bmobnews.bean.gank.base.BaseGankData;
 import com.aqtc.bmobnews.data.gank.GankType;
+import com.aqtc.bmobnews.fragment.base.BaseFragment;
 import com.aqtc.bmobnews.presenter.GalleryPresenter;
 import com.aqtc.bmobnews.view.GalleryView;
 
@@ -26,10 +28,10 @@ import butterknife.BindView;
  * Created by markzl on 2016/9/6.
  * email:1015653112@qq.com
  */
-public class GalleryFragment extends BaseFragment
+public class WelfareFragment extends BaseFragment
         implements SwipeRefreshLayout.OnRefreshListener, GalleryView, MainAdapter.OnClickListener {
 
-    private static final String tag = "GalleryFragment";
+    private static final String TAG = "WelfareFragment";
 
     @BindView(R.id.refresh)
     SwipeRefreshLayout mRefreshLayout;
@@ -42,6 +44,8 @@ public class GalleryFragment extends BaseFragment
 
     private GalleryPresenter mPresenter;
     private int gankType;
+
+    private EasyBorderDividerItemDecoration welfareDecoration;
 
     @Override
     public View getInflaterView(LayoutInflater inflater) {
@@ -56,7 +60,10 @@ public class GalleryFragment extends BaseFragment
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        // mRefreshLayout.setProgressBackgroundColor(android.R.color.holo_red_light);
+        this.welfareDecoration = new EasyBorderDividerItemDecoration(
+                this.getResources().getDimensionPixelOffset(R.dimen.welfare_border_divider_height),
+                this.getResources().getDimensionPixelOffset(R.dimen.welfare_border_padding_infra_spans));
+        mRecylerView.addItemDecoration(this.welfareDecoration);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
         mRecylerView.setLayoutManager(layoutManager);
         mRecylerView.addOnScrollListener(this.getRecyclerViewScrollListener());
@@ -70,11 +77,11 @@ public class GalleryFragment extends BaseFragment
         this.mPresenter.atthachView(this);
         this.gankType = GankType.welfare;
         this.mAdapter = new MainAdapter(mContext, gankType);
-       // this.mAdapter.setListener(this);
+        this.mAdapter.setListener(this);
         this.mAdapter.setOnItemClickListener(new EasyRecyclerViewHolder.OnItemClickListener() {
             @Override
             public void onItemClick(View convertView, int position) {
-                Log.i("xys","item");
+                Log.i("xys", "item");
             }
         });
         this.mRecylerView.setAdapter(mAdapter);

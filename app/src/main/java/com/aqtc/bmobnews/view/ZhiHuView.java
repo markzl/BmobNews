@@ -12,7 +12,13 @@ public interface ZhiHuView extends MvpView{
 
     /**
      * 获取知乎新闻数据成功
-     * @param zhiHuDailies
+     * @param zhiHuDaily
      */
-    void getDailyData(ZhiHuDaily zhiHuDailies);
+    void onGetDailyDataSuccess(ZhiHuDaily zhiHuDaily);
+
+    /**
+     * 获取更多数据成功
+     * @param zhiHuDaily
+     */
+    void onGetMoreDailyDataSuccess(ZhiHuDaily zhiHuDaily);
 }

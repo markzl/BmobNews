@@ -23,10 +23,10 @@ import com.aqtc.bmobnews.activity.AboutActivity;
 import com.aqtc.bmobnews.activity.LoginActivity;
 import com.aqtc.bmobnews.activity.RegisterActivity;
 import com.aqtc.bmobnews.activity.base.BaseActivity;
-import com.aqtc.bmobnews.fragment.GalleryFragment;
+import com.aqtc.bmobnews.fragment.WelfareFragment;
 import com.aqtc.bmobnews.fragment.ImportFragment;
 import com.aqtc.bmobnews.fragment.SlideshowFragment;
-import com.aqtc.bmobnews.fragment.ToolsFragment;
+import com.aqtc.bmobnews.fragment.ZhiHuFragment;
 import com.aqtc.bmobnews.util.SnackbarUtil;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -102,9 +102,9 @@ public class MainActivity extends BaseActivity
 
     private void initFragment() {
 
-        fragments = new Fragment[]{new ImportFragment(), new GalleryFragment(),
-                new SlideshowFragment(), new ToolsFragment()};
-        switchFragment(0, "BmobNews");
+        fragments = new Fragment[]{new ImportFragment(), new WelfareFragment(),
+                new SlideshowFragment(), new ZhiHuFragment()};
+        switchFragment(0, "每日干货");
         navigationView.getMenu().getItem(0).setChecked(true);
     }
 
@@ -143,16 +143,16 @@ public class MainActivity extends BaseActivity
 
         switch (item.getItemId()) {
             case R.id.nav_camera:
-                switchFragment(0, "BmobNews");
+                switchFragment(0, "每日干货");
                 break;
             case R.id.nav_gallery:
-                switchFragment(1, "Gallery");
+                switchFragment(1, "每日福利");
                 break;
             case R.id.nav_slideshow:
                 switchFragment(2, "Slideshow");
                 break;
             case R.id.nav_manage:
-                switchFragment(3, "Tools");
+                switchFragment(3, "每日福利");
                 break;
             case R.id.nav_share:
                 break;

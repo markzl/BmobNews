@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.adapter.TextAdapter;
+import com.aqtc.bmobnews.fragment.base.BaseFragment;
 
 import butterknife.BindView;
 
