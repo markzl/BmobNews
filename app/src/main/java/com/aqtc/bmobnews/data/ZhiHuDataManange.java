@@ -1,6 +1,7 @@
 package com.aqtc.bmobnews.data;
 
 import com.aqtc.bmobnews.bean.zhihu.ZhiHuDaily;
+import com.aqtc.bmobnews.bean.zhihu.ZhiHuDailyDetail;
 import com.aqtc.bmobnews.data.zhihu.ZhiHuInterface;
 
 import rx.Observable;
@@ -64,4 +65,20 @@ public class ZhiHuDataManange {
                 });
     }
 
+    /**
+     * 获取详情数据
+     * @param id
+     * @return
+     */
+    public Observable<ZhiHuDailyDetail> getZhiHuDailyDetail(long id){
+        return ZhiHuRetrofitHelper.getInstance()
+                .createService(ZhiHuInterface.class)
+                .getDailyDetail(id)
+                .filter(new Func1<ZhiHuDailyDetail, Boolean>() {
+                    @Override
+                    public Boolean call(ZhiHuDailyDetail detail) {
+                        return detail!=null;
+                    }
+                });
+    }
 }

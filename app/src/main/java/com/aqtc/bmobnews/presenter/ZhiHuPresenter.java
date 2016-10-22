@@ -3,6 +3,7 @@ package com.aqtc.bmobnews.presenter;
 import android.util.Log;
 
 import com.aqtc.bmobnews.bean.zhihu.ZhiHuDaily;
+import com.aqtc.bmobnews.bean.zhihu.ZhiHuDailyDetail;
 import com.aqtc.bmobnews.presenter.base.BasePresenter;
 import com.aqtc.bmobnews.view.ZhiHuView;
 import com.aqtc.bmobnews.view.base.MvpView;
@@ -35,7 +36,7 @@ public class ZhiHuPresenter extends BasePresenter<MvpView> {
                 .subscribe(new Subscriber<ZhiHuDaily>() {
                     @Override
                     public void onCompleted() {
-                        if(mCompositeSubscription!=null){
+                        if (mCompositeSubscription != null) {
                             mCompositeSubscription.remove(this);
                         }
                     }
@@ -43,7 +44,7 @@ public class ZhiHuPresenter extends BasePresenter<MvpView> {
                     @Override
                     public void onError(Throwable e) {
                         try {
-                            Log.i("xys",e.getMessage());
+                            Log.i("xys", e.getMessage());
                         } catch (Exception e1) {
                             e1.printStackTrace();
                         } finally {
@@ -60,6 +61,7 @@ public class ZhiHuPresenter extends BasePresenter<MvpView> {
 
     /**
      * 获取更多数据
+     *
      * @param type
      * @param date
      */
@@ -71,7 +73,7 @@ public class ZhiHuPresenter extends BasePresenter<MvpView> {
                 .subscribe(new Subscriber<ZhiHuDaily>() {
                     @Override
                     public void onCompleted() {
-                        if(mCompositeSubscription!=null){
+                        if (mCompositeSubscription != null) {
                             mCompositeSubscription.remove(this);
                         }
                     }
@@ -79,7 +81,7 @@ public class ZhiHuPresenter extends BasePresenter<MvpView> {
                     @Override
                     public void onError(Throwable e) {
                         try {
-                            Log.i("xys",e.getMessage());
+                            Log.i("xys", e.getMessage());
                         } catch (Exception e1) {
                             e1.printStackTrace();
                         } finally {
@@ -93,5 +95,7 @@ public class ZhiHuPresenter extends BasePresenter<MvpView> {
                     }
                 }));
     }
+
+
 
 }

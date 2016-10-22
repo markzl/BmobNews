@@ -27,4 +27,6 @@
     <color name="item_card_background">#ffF6F6EF</color>
     <color name="item_selectable_pressed">#ff9475CD</color>
 
+    <color name="black_90">#dd000000</color>
+
 </resources>

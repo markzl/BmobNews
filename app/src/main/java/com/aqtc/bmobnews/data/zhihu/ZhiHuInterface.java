@@ -1,6 +1,7 @@
 package com.aqtc.bmobnews.data.zhihu;
 
         import com.aqtc.bmobnews.bean.zhihu.ZhiHuDaily;
+        import com.aqtc.bmobnews.bean.zhihu.ZhiHuDailyDetail;
 
         import retrofit2.http.GET;
         import retrofit2.http.Path;
@@ -29,6 +30,15 @@ public interface ZhiHuInterface {
      */
     @GET("{type}/before/{date}")
     Observable<ZhiHuDaily> getMoreDaily(@Path("type") String type ,@Path("date") String date);
+
+    /**
+     * 获取每日详情信息
+     * @param id
+     * @return
+     */
+    @GET("news/{id}")
+    Observable<ZhiHuDailyDetail> getDailyDetail(@Path("id") long id);
+
 
 
 }

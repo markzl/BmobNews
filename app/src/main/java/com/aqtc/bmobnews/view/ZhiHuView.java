@@ -1,6 +1,7 @@
 package com.aqtc.bmobnews.view;
 
 import com.aqtc.bmobnews.bean.zhihu.ZhiHuDaily;
+import com.aqtc.bmobnews.bean.zhihu.ZhiHuDailyDetail;
 import com.aqtc.bmobnews.view.base.MvpView;
 
 /**
@@ -21,4 +22,6 @@ public interface ZhiHuView extends MvpView{
      * @param zhiHuDaily
      */
     void onGetMoreDailyDataSuccess(ZhiHuDaily zhiHuDaily);
+
+
 }

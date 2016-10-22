@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 public abstract class BaseToolbarActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
-    public Toolbar toolbar;
+    public Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public abstract class BaseToolbarActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initView(savedInstanceState);
         if(Build.VERSION.SDK_INT>=21){
-            toolbar.setElevation(3.0f);
+            mToolbar.setElevation(3.0f);
         }
         initToolBar();
         initData();

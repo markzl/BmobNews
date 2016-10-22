@@ -52,8 +52,8 @@ public class WebViewActivity extends BaseToolbarActivity {
 
     @Override
     public void initToolBar() {
-        toolbar.setTitle(this.getUrlTitle());
-        setSupportActionBar(toolbar);
+        mToolbar.setTitle(this.getUrlTitle());
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
