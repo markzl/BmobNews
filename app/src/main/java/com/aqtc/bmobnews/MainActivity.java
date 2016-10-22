@@ -102,9 +102,9 @@ public class MainActivity extends BaseActivity
 
     private void initFragment() {
 
-        fragments = new Fragment[]{new ImportFragment(), new WelfareFragment(),
-                new SlideshowFragment(), new ZhiHuFragment()};
-        switchFragment(0, "每日干货");
+        fragments = new Fragment[]{ new ZhiHuFragment(),new ImportFragment(), new WelfareFragment(),
+                new SlideshowFragment()};
+        switchFragment(0, "每日日报");
         navigationView.getMenu().getItem(0).setChecked(true);
     }
 
@@ -143,16 +143,16 @@ public class MainActivity extends BaseActivity
 
         switch (item.getItemId()) {
             case R.id.nav_camera:
-                switchFragment(0, "每日干货");
+                switchFragment(0, "每日日报");
                 break;
             case R.id.nav_gallery:
-                switchFragment(1, "每日福利");
+                switchFragment(1, "每日干货");
                 break;
             case R.id.nav_slideshow:
-                switchFragment(2, "Slideshow");
+                switchFragment(2, "每日福利");
                 break;
             case R.id.nav_manage:
-                switchFragment(3, "每日福利");
+                switchFragment(3, "每日推荐");
                 break;
             case R.id.nav_share:
                 break;
