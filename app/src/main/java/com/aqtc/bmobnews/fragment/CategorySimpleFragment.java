@@ -1,56 +1,58 @@
 package com.aqtc.bmobnews.fragment;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import com.aqtc.bmobnews.R;
-import com.aqtc.bmobnews.activity.DailyDetailActivity;
+import com.aqtc.bmobnews.activity.WebViewActivity;
 import com.aqtc.bmobnews.adapter.MainAdapter;
 import com.aqtc.bmobnews.adapter.base.EasyBorderDividerItemDecoration;
 import com.aqtc.bmobnews.adapter.base.EasyRecyclerViewHolder;
-import com.aqtc.bmobnews.bean.gank.GankDaily;
 import com.aqtc.bmobnews.bean.gank.base.BaseGankData;
-import com.aqtc.bmobnews.data.gank.GankType;
+import com.aqtc.bmobnews.data.gank.GankTypeDict;
 import com.aqtc.bmobnews.fragment.base.BaseFragment;
 import com.aqtc.bmobnews.presenter.GankPresenter;
-import com.aqtc.bmobnews.util.ClickUtil;
-import com.aqtc.bmobnews.util.SnackbarUtil;
-import com.aqtc.bmobnews.view.ImportView;
+import com.aqtc.bmobnews.view.CategoryView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
 /**
- * Created by markzl on 2016/9/6.
- * email:1015653112@qq.com
+ * author: markzl
+ * time: 2016/10/25 11:28
+ * email: 1015653112@qq.com
  */
-public class ImportFragment extends BaseFragment implements
-        SwipeRefreshLayout.OnRefreshListener, MainAdapter.OnClickListener, ImportView {
 
+public class CategorySimpleFragment extends BaseFragment implements CategoryView, SwipeRefreshLayout.OnRefreshListener, EasyRecyclerViewHolder.OnItemClickListener {
+
+    private final static String EXTRA_TYPE = "gank_type";
     @BindView(R.id.refresh)
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycler)
     RecyclerView mRecyclerView;
 
-    /**
-     * 是否是刷新状态
-     */
     private boolean isRefreshStatus = false;
-
     private GankPresenter mPresenter;
     private MainAdapter mAdapter;
     private int gankType;
-    private static final int EMPTY_LIMIT = 5;
-
     private EasyBorderDividerItemDecoration dataDecoration;
+    private int page_index = 1;
+
+    public static CategorySimpleFragment newInstance(String type) {
+        CategorySimpleFragment mFragment = new CategorySimpleFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(EXTRA_TYPE, type);
+        mFragment.setArguments(bundle);
+        return mFragment;
+    }
 
     @Override
     public View getInflaterView(LayoutInflater inflater) {
@@ -71,33 +73,8 @@ public class ImportFragment extends BaseFragment implements
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-
         mRefreshLayout.setOnRefreshListener(this);
         this.mRecyclerView.addOnScrollListener(this.getRecyclerViewScrollListener());
-
-    }
-
-    @Override
-    public void initData() {
-        this.mPresenter = new GankPresenter();
-        this.mPresenter.atthachView(this);
-        //获取类型为每日推荐数据类型
-        this.gankType = GankType.daily;
-        this.mAdapter = new MainAdapter(mContext, this.gankType);
-        this.mAdapter.setListener(this);
-        this.mAdapter.setOnItemClickListener(new EasyRecyclerViewHolder.OnItemClickListener() {
-            @Override
-            public void onItemClick(View convertView, int position) {
-                if (ClickUtil.isFastDoubleClick()) return;
-                Object o = mAdapter.getItem(position);
-                GankDaily daily = (GankDaily) o;
-                ImportFragment.this.mPresenter.getDailyDetail(daily.results);
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
-
-        this.refreshData();
-
     }
 
     /**
@@ -132,115 +109,89 @@ public class ImportFragment extends BaseFragment implements
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
                 this.toLast = dy > 0;
-                 /*   //dy: y轴滑动方向 dx: x轴滑动方向 firstVisiable - lastVisiable
-                if (dy > 0) {
-                    this.toLast = true;
-                    // Log.i("xys","上拉加载更多");
-                } else {
-                    //停止滑动或者是下拉刷新数据
-                    this.toLast = false;
-                    //Log.i("xys","下拉刷新数据");
-                }*/
             }
         };
     }
 
-    /**
-     * 请求加载更多
-     */
-    private void loadMoreRequest() {
-        //没数据了
-        if (this.emptyCount >= EMPTY_LIMIT) {
-            Toast.makeText(mContext, "并没有干货了，等下一期吧，骚年", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        //如果不是在刷新状态
-        if (!this.isRefreshStatus) {
-            //加载更多
-            this.mPresenter.setPage(this.mPresenter.getPage() + 1);
-            this.mPresenter.getDaily(false, GankType.DONT_SWITCH);
-            isRefreshStatus = !isRefreshStatus;
-            this.refresh(isRefreshStatus);
-        }
-
+    @Override
+    public void initData() {
+        String type = getArguments().getString(EXTRA_TYPE);
+        gankType = GankTypeDict.urlType2TypeDict.get(type);
+        this.mPresenter = new GankPresenter();
+        this.mPresenter.atthachView(this);
+        this.mAdapter = new MainAdapter(mContext, this.gankType);
+        this.mAdapter.setOnItemClickListener(this);
+        this.mRecyclerView.setAdapter(this.mAdapter);
+        this.refreshData();
     }
 
     /**
      * 刷新或者是下拉刷新
      */
     private void refreshData() {
-
-        this.refresh(true);
-        this.mPresenter.setPage(1);
-        //刷新数据
-        this.mPresenter.getDaily(true, GankType.DONT_SWITCH);
-
+        if (!isRefreshStatus) {
+            isRefreshStatus = !isRefreshStatus;
+            this.refresh(isRefreshStatus);
+            this.mPresenter.getCategoryData(GankTypeDict.type2UrlTypeDict.get(gankType), 1);
+        }
     }
 
-    @Override
-    public void onRefresh() {
+    private void loadMoreRequest() {
         if (!isRefreshStatus) {
-            refreshData();
+            page_index++;
+            isRefreshStatus = !isRefreshStatus;
+            this.refresh(isRefreshStatus);
+            this.mPresenter.getCategoryData(GankTypeDict.type2UrlTypeDict.get(gankType), page_index);
         }
     }
 
     private void refresh(final boolean refresh) {
+
         if (mRefreshLayout == null) return;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 mRefreshLayout.setRefreshing(refresh);
             }
-        }, 1000);
+        }, 500);
 
     }
 
-    private int emptyCount = 0;
-
-    /**
-     * 查询每日干货成功是否刷新
-     *
-     * @param dailyData
-     * @param refresh   是否刷新
-     */
     @Override
-    public void onGetDailySuccess(List<GankDaily> dailyData, boolean refresh) {
+    public void onRefresh() {
+        this.refreshData();
+    }
 
-        if (refresh) {
-            this.emptyCount = 0;
-            this.mAdapter.setRefreshData(dailyData);
-            SnackbarUtil.showMessage(mRefreshLayout, "已经是最新数据了T~T");
+    @Override
+    public void onGetCategoryDataSuccess(ArrayList<BaseGankData> gankDatas, int page) {
+
+        if (page == 1) {
+            this.mAdapter.setRefreshData(gankDatas);
         } else {
-            this.mAdapter.addAll(dailyData);
+            this.mAdapter.addAll(gankDatas);
         }
-        if (dailyData.size() == 0)
-            this.emptyCount++;
-        isRefreshStatus = false;
+        isRefreshStatus = !isRefreshStatus;
         this.refresh(isRefreshStatus);
     }
 
     @Override
-    public void onGetDailyDetail(String title, ArrayList<ArrayList<BaseGankData>> detail) {
-
-        DailyDetailActivity.startActivity(mContext, title, detail);
+    public void onItemClick(View convertView, int position) {
+        Object o = this.mAdapter.getItem(position);
+        if(o instanceof BaseGankData){
+            BaseGankData baseGankData = (BaseGankData) o;
+            WebViewActivity.toURL(mContext,baseGankData.url,baseGankData.desc,baseGankData.type);
+        }
     }
 
     @Override
     public void onFailure(Throwable e) {
-        isRefreshStatus = false;
-        this.refresh(isRefreshStatus);
-        SnackbarUtil.showMessage(mRefreshLayout, "加载失败，再试试T~T");
-    }
 
-    @Override
-    public void onClickPicture(String url, String title, View view) {
     }
 
     @Override
     public void onDestroy() {
         this.mPresenter.detachView();
         super.onDestroy();
-
     }
 
 }

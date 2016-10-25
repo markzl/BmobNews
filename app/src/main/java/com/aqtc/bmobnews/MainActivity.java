@@ -1,14 +1,15 @@
 package com.aqtc.bmobnews;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,9 +24,10 @@ import com.aqtc.bmobnews.activity.AboutActivity;
 import com.aqtc.bmobnews.activity.LoginActivity;
 import com.aqtc.bmobnews.activity.RegisterActivity;
 import com.aqtc.bmobnews.activity.base.BaseActivity;
+import com.aqtc.bmobnews.fragment.CategoryFragment;
+import com.aqtc.bmobnews.fragment.RecommandFragment;
 import com.aqtc.bmobnews.fragment.WelfareFragment;
 import com.aqtc.bmobnews.fragment.ImportFragment;
-import com.aqtc.bmobnews.fragment.SlideshowFragment;
 import com.aqtc.bmobnews.fragment.ZhiHuFragment;
 import com.aqtc.bmobnews.util.SnackbarUtil;
 import com.google.android.gms.appindexing.Action;
@@ -102,8 +104,8 @@ public class MainActivity extends BaseActivity
 
     private void initFragment() {
 
-        fragments = new Fragment[]{ new ZhiHuFragment(),new ImportFragment(), new WelfareFragment(),
-                new SlideshowFragment()};
+        fragments = new Fragment[]{new ZhiHuFragment(), new ImportFragment(), CategoryFragment.newInstance(), new WelfareFragment(),
+                new RecommandFragment()};
         switchFragment(0, "每日日报");
         navigationView.getMenu().getItem(0).setChecked(true);
     }
@@ -111,7 +113,7 @@ public class MainActivity extends BaseActivity
     public void switchFragment(int index, String title) {
 
         toolbar.setTitle(title);
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.hide(fragments[currentTabIndex]);
         if (!fragments[index].isAdded()) {
@@ -148,11 +150,14 @@ public class MainActivity extends BaseActivity
             case R.id.nav_gallery:
                 switchFragment(1, "每日干货");
                 break;
+            case R.id.nav_category:
+                switchFragment(2, "分类数据");
+                break;
             case R.id.nav_slideshow:
-                switchFragment(2, "每日福利");
+                switchFragment(3, "每日福利");
                 break;
             case R.id.nav_manage:
-                switchFragment(3, "每日推荐");
+                switchFragment(4, "每日推荐");
                 break;
             case R.id.nav_share:
                 break;

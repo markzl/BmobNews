@@ -1,6 +1,7 @@
 package com.aqtc.bmobnews.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import com.aqtc.bmobnews.adapter.base.EasyRecyclerViewHolder;
 import com.aqtc.bmobnews.bean.gank.base.BaseGankData;
 import com.aqtc.bmobnews.bean.gank.GankDaily;
 import com.aqtc.bmobnews.data.constant.CodeConstant;
+import com.aqtc.bmobnews.data.constant.UrlMatch;
 import com.aqtc.bmobnews.data.gank.GankApi;
 import com.aqtc.bmobnews.data.gank.GankType;
 import com.aqtc.bmobnews.util.DateUtils;
@@ -29,7 +31,6 @@ public class MainAdapter extends EasyRecyclerViewAdapter {
     private final static int LAYOUT_TYPE_TECHNOLOGY = 2;
 
     private Context context;
-
     private int type;
     private OnClickListener listener;
 
@@ -40,7 +41,7 @@ public class MainAdapter extends EasyRecyclerViewAdapter {
 
     @Override
     public int[] getItemLayouts() {
-        return new int[]{R.layout.item_gank_daily, R.layout.item_gank_welfare};
+        return new int[]{R.layout.item_gank_daily, R.layout.item_gank_welfare, R.layout.item_gank_data};
     }
 
     public int getType() {
@@ -203,7 +204,63 @@ public class MainAdapter extends EasyRecyclerViewAdapter {
      * @param postion
      */
     private void loadingTechnology(EasyRecyclerViewHolder easyRecyclerViewHolder, int postion) {
+        BaseGankData baseGankData = this.getItem(postion);
+        if (baseGankData == null) return;
+        TextView dataDateTv = easyRecyclerViewHolder.findViewById(R.id.tv_data_date);
+        TextView dataTitleTv = easyRecyclerViewHolder.findViewById(R.id.tv_data_title);
+        TextView dataViaTv = easyRecyclerViewHolder.findViewById(R.id.tv_data_via);
+        TextView dataTagTv = easyRecyclerViewHolder.findViewById(R.id.tv_data_tag);
+        //标题
+        if (TextUtils.isEmpty(baseGankData.desc)) {
+            dataTitleTv.setText("");
+        } else {
+            dataTitleTv.setText(baseGankData.desc);
+        }
+        //时间
+        if (baseGankData.publishedAt == null) {
+            dataDateTv.setText("");
+        } else {
+            dataDateTv.setText(DateUtils.getTimestampString(baseGankData.publishedAt));
+        }
+        //小编
+        if (TextUtils.isEmpty(baseGankData.who)) {
+            dataViaTv.setText("");
+        } else {
+            dataViaTv.setText(this.context.getString(R.string.common_via, baseGankData.who));
+        }
+        if (TextUtils.isEmpty(baseGankData.url)) {
+            dataTagTv.setVisibility(View.GONE);
+        } else {
+             this.setTag(dataTagTv,baseGankData.url);
+        }
 
+    }
+
+    /**
+     * @param dataTagTV dataTagTV
+     * @param url url
+     */
+    private void setTag(TextView dataTagTV, String url) {
+        String key = UrlMatch.processUrl(url);
+        GradientDrawable drawable = (GradientDrawable) dataTagTV.getBackground();
+        if (UrlMatch.url2Content.containsKey(key)) {
+            drawable.setColor(UrlMatch.url2Color.get(key));
+            dataTagTV.setText(UrlMatch.url2Content.get(key));
+        } else {
+            if (this.type == GankType.video) {
+                drawable.setColor(UrlMatch.OTHER_VIDEO_COLOR);
+                dataTagTV.setText(UrlMatch.OTHER_VIDEO_CONTENT);
+            } else {
+                // github 的要特殊处理
+                if (url.contains(UrlMatch.GITHUB_PREFIX)) {
+                    drawable.setColor(UrlMatch.url2Color.get(UrlMatch.GITHUB_PREFIX));
+                    dataTagTV.setText(UrlMatch.url2Content.get(UrlMatch.GITHUB_PREFIX));
+                } else {
+                    drawable.setColor(UrlMatch.OTHER_BLOG_COLOR);
+                    dataTagTV.setText(UrlMatch.OTHER_BLOG_CONTENT);
+                }
+            }
+        }
     }
 
     public void setListener(OnClickListener listener) {

@@ -1,5 +1,7 @@
 package com.aqtc.bmobnews.presenter;
 
+import android.util.Log;
+
 import com.anupcowkur.reservoir.ReservoirGetCallback;
 import com.aqtc.bmobnews.bean.gank.GankDaily;
 import com.aqtc.bmobnews.bean.gank.base.BaseGankData;
@@ -9,6 +11,7 @@ import com.aqtc.bmobnews.data.gank.GankType;
 import com.aqtc.bmobnews.presenter.base.BasePresenter;
 import com.aqtc.bmobnews.util.DateUtils;
 import com.aqtc.bmobnews.util.ReservoirUtil;
+import com.aqtc.bmobnews.view.CategoryView;
 import com.aqtc.bmobnews.view.ImportView;
 import com.aqtc.bmobnews.view.base.MvpView;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +24,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * author: markzl
@@ -62,6 +67,12 @@ public class GankPresenter extends BasePresenter<MvpView> {
         return page;
     }
 
+    /**
+     * 获取每日数据
+     *
+     * @param isRefresh
+     * @param oldPage
+     */
     public void getDaily(final boolean isRefresh, int oldPage) {
 
         if (oldPage != -1) {
@@ -125,6 +136,11 @@ public class GankPresenter extends BasePresenter<MvpView> {
                 }));
     }
 
+    /**
+     * 获取每日详情数据
+     *
+     * @param dailyResults
+     */
     public void getDailyDetail(final GankDaily.DailyResults dailyResults) {
 
         this.mCompositeSubscription.add(this.mDataManager.getDailyDetailDataByDailyResults(dailyResults)
@@ -154,6 +170,43 @@ public class GankPresenter extends BasePresenter<MvpView> {
                             ((ImportView) (GankPresenter.this.getMvpView())).onGetDailyDetail(DateUtils.date2String(dailyResults.welfareData.get(0).publishedAt.getTime(),
                                     CodeConstant.DAILY_DATE_FORMAT), results);
                         }
+                    }
+                }));
+    }
+
+    /**
+     * 获取分类数据
+     *
+     * @param type
+     * @param oldPage
+     */
+    public void getCategoryData(String type, int oldPage) {
+
+        this.mCompositeSubscription.add(this.mDataManager.getDataByNetwork(type, GankApi.DEFAULT_DATA_SIZE, oldPage)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ArrayList<BaseGankData>>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mCompositeSubscription != null) {
+                            mCompositeSubscription.remove(this);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        try {
+                            e.getMessage();
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        } finally {
+                            GankPresenter.this.getMvpView().onFailure(e);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<BaseGankData> baseGankDatas) {
+                        ((CategoryView) (GankPresenter.this.getMvpView())).onGetCategoryDataSuccess(baseGankDatas, oldPage);
                     }
                 }));
     }

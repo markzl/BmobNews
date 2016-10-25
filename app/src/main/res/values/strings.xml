@@ -22,6 +22,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="common_via">via. %s</string>
     <string name="title_activity_register">Register</string>
     <!--About-->
     <string name="about_introduce">「萌妹纸」- 每日更新妹纸福利\n\n使用Rxjava系列类库 + Realm数据库 + Retrofit2实现的一个妹纸福利App,喜欢的请star一波!</string>

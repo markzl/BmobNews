@@ -15,14 +15,14 @@ import butterknife.BindView;
  * Created by markzl on 2016/9/6.
  * email:1015653112@qq.com
  */
-public class SlideshowFragment extends BaseFragment {
+public class RecommandFragment extends BaseFragment {
 
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
 
     @Override
     public View getInflaterView(LayoutInflater inflater) {
-        View view =inflater.inflate(R.layout.fragment_slide_show,null,false);
+        View view =inflater.inflate(R.layout.fragment_recommand,null,false);
         return view;
     }
 
