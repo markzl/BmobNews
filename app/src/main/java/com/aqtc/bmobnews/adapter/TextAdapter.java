@@ -23,7 +23,7 @@ public class TextAdapter extends RecyclerView.Adapter<TextAdapter.ListHolder> {
 
     @Override
     public ListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_zhihu_daily,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_zhihu_recommand,parent,false);
         return new ListHolder(view){
 
         };

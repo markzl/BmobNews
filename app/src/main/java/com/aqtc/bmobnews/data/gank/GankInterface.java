@@ -4,6 +4,7 @@ import com.aqtc.bmobnews.bean.gank.GankDaily;
 import com.aqtc.bmobnews.bean.gank.GankData;
 import com.aqtc.bmobnews.bean.gank.GankHistroy;
 
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Observable;
@@ -34,6 +35,15 @@ public interface GankInterface {
      */
     @GET("data/{type}/{size}/{page}")
     Observable<GankData> getData(@Path("type") String type, @Path("size") int size, @Path("page") int page);
+
+    /**
+     * 获取妹子图
+     * @param type
+     * @param pageNum
+     * @return
+     */
+    @GET("{type}/page/{pageNum}")
+    Observable<ResponseBody> getMeiziTuApi(@Path("type") String type, @Path("pageNum") int pageNum);
 
     /**
      * 获取发过干货日期接口

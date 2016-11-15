@@ -3,6 +3,7 @@ package com.aqtc.bmobnews.presenter;
 import android.util.Log;
 
 import com.aqtc.bmobnews.bean.zhihu.ZhiHuDailyDetail;
+import com.aqtc.bmobnews.bean.zhihu.ZhiHuDailyExtra;
 import com.aqtc.bmobnews.presenter.base.BasePresenter;
 import com.aqtc.bmobnews.view.ZhiHuDetailView;
 import com.aqtc.bmobnews.view.base.MvpView;
@@ -68,6 +69,42 @@ public class ZhiHuDetailPresenter extends BasePresenter<MvpView> {
                     @Override
                     public void onNext(ZhiHuDailyDetail detail) {
                         ((ZhiHuDetailView) (ZhiHuDetailPresenter.this.getMvpView())).onGetDailyDetailDataSuccess(detail);
+                    }
+                }));
+    }
+
+    /**
+     * 获取额外信息
+     *
+     * @param id
+     */
+    public void getDailyExtralMessage(long id) {
+
+        this.mCompositeSubscription.add(this.zhiHuDataManange.getDailyExtraById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ZhiHuDailyExtra>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mCompositeSubscription != null) {
+                            mCompositeSubscription.remove(this);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        try {
+                            Log.i("xys", e.getMessage());
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        } finally {
+                            ZhiHuDetailPresenter.this.getMvpView().onFailure(e);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(ZhiHuDailyExtra zhiHuDailyExtra) {
+                        ((ZhiHuDetailView) (ZhiHuDetailPresenter.this.getMvpView())).onGetDailyExtralMessageSuccess(zhiHuDailyExtra);
                     }
                 }));
     }

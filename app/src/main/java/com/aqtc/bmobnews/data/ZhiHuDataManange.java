@@ -1,7 +1,9 @@
 package com.aqtc.bmobnews.data;
 
+import com.aqtc.bmobnews.bean.zhihu.LuanchImageBean;
 import com.aqtc.bmobnews.bean.zhihu.ZhiHuDaily;
 import com.aqtc.bmobnews.bean.zhihu.ZhiHuDailyDetail;
+import com.aqtc.bmobnews.bean.zhihu.ZhiHuDailyExtra;
 import com.aqtc.bmobnews.data.zhihu.ZhiHuInterface;
 
 import rx.Observable;
@@ -29,6 +31,25 @@ public class ZhiHuDataManange {
             }
         }
         return instance;
+    }
+
+    /**
+     * 获取加载页高清图
+     * @param res
+     * @return
+     */
+    public Observable<LuanchImageBean> getLuanchImage(String res)
+    {
+
+        return  ZhiHuRetrofitHelper.getInstance()
+                .createService(ZhiHuInterface.class)
+                .getLuanchImage(res)
+                .filter(new Func1<LuanchImageBean, Boolean>() {
+                    @Override
+                    public Boolean call(LuanchImageBean luanchImageBean) {
+                        return luanchImageBean!=null;
+                    }
+                });
     }
 
     /**
@@ -65,6 +86,23 @@ public class ZhiHuDataManange {
                 });
     }
 
+    /**
+     * 获取额外数据
+     * @param id
+     * @return
+     */
+    public Observable<ZhiHuDailyExtra> getDailyExtraById(long id){
+
+        return ZhiHuRetrofitHelper.getInstance()
+                .createService(ZhiHuInterface.class)
+                .getDailyExtraMessageById(id)
+                .filter(new Func1<ZhiHuDailyExtra, Boolean>() {
+                    @Override
+                    public Boolean call(ZhiHuDailyExtra zhiHuDailyExtra) {
+                        return zhiHuDailyExtra!=null;
+                    }
+                });
+    }
     /**
      * 获取详情数据
      * @param id

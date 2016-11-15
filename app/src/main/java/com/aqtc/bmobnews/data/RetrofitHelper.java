@@ -2,6 +2,7 @@ package com.aqtc.bmobnews.data;
 
 import com.aqtc.bmobnews.BmobApplication;
 import com.aqtc.bmobnews.data.gank.GankApi;
+import com.aqtc.bmobnews.data.gank.GankInterface;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
@@ -22,6 +23,7 @@ public class RetrofitHelper {
 
     private Retrofit retrofit;
     public static RetrofitHelper instance = null;
+    public static final String BASE_MEIZITU_URL = "http://www.mzitu.com/";
 
     public static RetrofitHelper getInstance() {
         if (instance == null) {
@@ -67,5 +69,19 @@ public class RetrofitHelper {
      */
     public <T> T createService(Class<T> clz) {
         return retrofit.create(clz);
+    }
+
+    /**
+     * 获取妹子图数据
+     * @return
+     */
+    public static GankInterface getMeiziService(){
+
+        Retrofit mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASE_MEIZITU_URL)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return  mRetrofit.create(GankInterface.class);
     }
 }
