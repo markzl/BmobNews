@@ -94,6 +94,8 @@ public class SplashActivity extends Activity {
                     @Override
                     public void onError(Throwable e) {
                         Log.i("xys","eero");
+                        GlideUtils.displayNative(iv_launcher,R.mipmap.default_bg);
+                        mHandler.sendEmptyMessageDelayed(0,1000);
                     }
 
                     @Override
