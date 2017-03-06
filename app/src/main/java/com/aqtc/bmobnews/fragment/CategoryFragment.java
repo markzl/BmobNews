@@ -30,7 +30,8 @@ public class CategoryFragment extends BaseFragment {
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
 
-    private List<String> titles = Arrays.asList(GankApi.DATA_TYPE_ANDROID, GankApi.DATA_TYPE_IOS, GankApi.DATA_TYPE_JS,
+    private List<String> titles = Arrays.asList(GankApi.DATA_TYPE_ANDROID,
+            GankApi.DATA_TYPE_IOS, GankApi.DATA_TYPE_JS,
             GankApi.DATA_TYPE_APP,  GankApi.DATA_TYPE_EXTEND_RESOURCES);
 
     public static CategoryFragment newInstance(){

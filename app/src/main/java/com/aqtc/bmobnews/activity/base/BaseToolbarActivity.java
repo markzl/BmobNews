@@ -29,7 +29,7 @@ public abstract class BaseToolbarActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initView(savedInstanceState);
         if(Build.VERSION.SDK_INT>=21){
-            mToolbar.setElevation(3.0f);
+            mToolbar.setElevation(0.0f);
         }
         initToolBar();
         initData();

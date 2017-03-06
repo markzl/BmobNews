@@ -1,7 +1,10 @@
 <resources>
     <!--AppTheme Style-->
     <style name="AppTheme" parent="AppTheme.Base"></style>
-
+    <!--加载页Theme-->
+    <style name="LaunchTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>

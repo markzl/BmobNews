@@ -12,7 +12,7 @@
         android:background="@color/colorPrimary"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:elevation="4dp"
+        app:elevation="8dp"
         app:tl_indicator_corner_radius="1.5dp"
         app:tl_indicator_height="2dp"
         app:tl_indicator_width="30dp"
@@ -22,7 +22,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
         android:background="@color/white"
+        android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </LinearLayout>
