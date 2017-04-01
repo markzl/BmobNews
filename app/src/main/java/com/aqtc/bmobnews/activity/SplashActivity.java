@@ -9,18 +9,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aqtc.bmobnews.MainActivity;
 import com.aqtc.bmobnews.R;
 import com.aqtc.bmobnews.bean.gank.base.BaseGankData;
-import com.aqtc.bmobnews.bean.zhihu.LuanchImageBean;
 import com.aqtc.bmobnews.data.GankDataManange;
-import com.aqtc.bmobnews.data.ZhiHuDataManange;
 import com.aqtc.bmobnews.data.gank.GankApi;
-import com.aqtc.bmobnews.data.gank.GankType;
 import com.aqtc.bmobnews.util.GlideUtils;
 
 import java.util.ArrayList;
@@ -28,8 +24,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -72,18 +66,18 @@ public class SplashActivity extends Activity {
         super.onResume();
     }
 
-    private ZhiHuDataManange dataManange;
+    private GankDataManange dataManange;
     private CompositeSubscription mCompositeSubscription;
 
     private void getLauncherImage() {
+
         if (dataManange == null)
-            dataManange = ZhiHuDataManange.getInstance();
+            dataManange = GankDataManange.getInstance();
         if (mCompositeSubscription == null)
             mCompositeSubscription = new CompositeSubscription();
-        mCompositeSubscription.add(dataManange.getLuanchImage(RESOLUTION)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<LuanchImageBean>() {
+        mCompositeSubscription.add(dataManange.getDataByNetwork(GankApi.DATA_TYPE_WELFARE,1,1)
+
+                .subscribe(new Subscriber<ArrayList<BaseGankData>>(){
                     @Override
                     public void onCompleted() {
                         if(mCompositeSubscription!=null){
@@ -93,15 +87,14 @@ public class SplashActivity extends Activity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("xys","eero");
                         GlideUtils.displayNative(iv_launcher,R.mipmap.default_bg);
                         mHandler.sendEmptyMessageDelayed(0,1000);
                     }
 
                     @Override
-                    public void onNext(LuanchImageBean bean) {
-                        GlideUtils.display(iv_launcher, bean.getImg());
-                        tv_form.setText(bean.getText());
+                    public void onNext(ArrayList<BaseGankData> bean) {
+                        GlideUtils.display(iv_launcher, bean.get(0).url);
+                        tv_form.setText(bean.get(0).desc);
                         mHandler.sendEmptyMessageDelayed(0,1000);
                     }
                 }));

@@ -127,6 +127,7 @@ public abstract class EasyRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
 
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
+
         return new EasyRecyclerViewHolder(view);
     }
 

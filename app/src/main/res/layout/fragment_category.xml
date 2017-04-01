@@ -12,7 +12,7 @@
         android:background="@color/colorPrimary"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        app:elevation="8dp"
+        app:elevation="4dp"
         app:tl_indicator_corner_radius="1.5dp"
         app:tl_indicator_height="2dp"
         app:tl_indicator_width="30dp"

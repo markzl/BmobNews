@@ -1,5 +1,6 @@
 package com.aqtc.bmobnews.fragment;
 
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -45,6 +46,9 @@ public class CategoryFragment extends BaseFragment {
 
     @Override
     public void initView() {
+        if(Build.VERSION.SDK_INT>=21){
+            this.getActivity().findViewById(R.id.app_bar_layout).setElevation(0);
+        }
         mViewPager.setAdapter(new CategoryPageAdapter(getChildFragmentManager()));
         mViewPager.setOffscreenPageLimit(1);
         mSlidingTabLayout.setViewPager(mViewPager);

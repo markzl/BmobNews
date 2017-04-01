@@ -53,12 +53,14 @@ public class EasyRecyclerViewHolder extends RecyclerView.ViewHolder {
 
         if (listener == null) {
             itemView.setOnLongClickListener(null);
-        } else itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return listener.onItemLongClick(v, position);
-            }
-        });
+        } else {
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return listener.onItemLongClick(v, position);
+                }
+            });
+        }
     }
     //之前itemview 点击事件无法获取的原因找到了，setLongClickListener
     // 写成了 setClickListener
