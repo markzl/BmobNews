@@ -3,7 +3,7 @@ apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 android {
     compileSdkVersion 23
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "25.0.2"
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.aqtc.bmobnews"
