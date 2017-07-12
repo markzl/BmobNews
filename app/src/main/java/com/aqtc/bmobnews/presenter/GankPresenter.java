@@ -244,7 +244,7 @@ public class GankPresenter extends BasePresenter<MvpView> {
             List<EasyDate> easyDates = new ArrayList<>();
             for (int i = 0; i < GankApi.DEFAULT_DAILY_SIZE; i++) {
 
-                long time = this.calendar.getTimeInMillis() - (page - 1) * GankApi.DEFAULT_DAILY_SIZE * DateUtils.ONE_DAY - (10+i)* DateUtils.ONE_DAY;
+                long time = this.calendar.getTimeInMillis() - (page - 1) * GankApi.DEFAULT_DAILY_SIZE * DateUtils.ONE_DAY - i * DateUtils.ONE_DAY;
                 Calendar c = Calendar.getInstance();
                 c.setTimeInMillis(time);
                 EasyDate date = new EasyDate(c);
